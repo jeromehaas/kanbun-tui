@@ -1,0 +1,47 @@
+# PYTHON CACHE
+__pycache__/
+*.py[cod]
+*$py.class
+
+# VIRTUAL ENVIRONMENTS
+.venv/
+venv/
+env/
+ENV/
+
+# BUILD AND PACKAGING
+build/
+dist/
+.eggs/
+*.egg-info/
+pip-wheel-metadata/
+
+# TEST AND COVERAGE
+.pytest_cache/
+.coverage
+.coverage.*
+htmlcov/
+
+# TYPE CHECKING AND LINTING
+.mypy_cache/
+.ruff_cache/
+.pyre/
+.dmypy.json
+
+# TASK RUNNERS AND AUTOMATION
+.tox/
+.nox/
+
+# LOGS AND TEMP FILES
+*.log
+tmp/
+temp/
+.cache/
+
+# EDITOR AND IDE FILES
+.idea/
+.vscode/
+
+# OPERATING SYSTEM FILES
+.DS_Store
+Thumbs.db
