@@ -1,4 +1,6 @@
 BoardsContainer {
     width: 1fr;
     height: 100%;
+    background: red 100%;
+    border: solid green;
 }

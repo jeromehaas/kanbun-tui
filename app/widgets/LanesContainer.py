@@ -2,10 +2,9 @@ from textual.app import ComposeResult
 from textual.widgets import Label
 from textual.containers import Container
 
-# BOARDS CONTAINER CLASS
-class BoardsContainer(Container):
-    CSS_PATH="../styles/widgets/boards-container.tcss"
+# LANES CONTAINER CLASS
+class LanesContainer(Container):
+    CSS_PATH="../styles/widgets/lanes-container.tcss"
 
     def compose(self) -> ComposeResult:
-        yield Label("Boards")
-
+        yield Label("Lanes")

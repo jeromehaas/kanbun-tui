@@ -1,3 +1,4 @@
-BoardsScreen {
-    background: blue;
+#main-area {
+    layout: horizontal;
+    border: solid yellow;
 }

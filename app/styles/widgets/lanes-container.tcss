@@ -1,0 +1,7 @@
+LanesContainer {
+    width: 3fr;
+    height: 100%;
+    background: green;
+    border: solid white;
+}
+
