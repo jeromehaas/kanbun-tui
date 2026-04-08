@@ -5,6 +5,7 @@ from textual.widgets import Static, ListView, Label, ListItem
 from app.api.ApiClient import ApiClient
 from app.api.TasksApi import TasksApi
 from app.services.TasksService import TasksService
+from app.widgets.BoardsContainer import BoardsContainer
 
 # MAIN SCREEN CLASS FOR DISPLAYING BOARDS AND TASKS
 class BoardsScreen (Screen):
@@ -31,5 +32,6 @@ class BoardsScreen (Screen):
 
     # COMPOSE ALL CHILD WIDGETS
     def compose(self):
+        yield BoardsContainer()
         yield Static("Hello World")
         yield ListView(id="tasks_list")
