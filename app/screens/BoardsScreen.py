@@ -6,11 +6,9 @@ from app.api.ApiClient import ApiClient
 from app.api.TasksApi import TasksApi
 from app.services.TasksService import TasksService
 
-
-
 # MAIN SCREEN CLASS FOR DISPLAYING BOARDS AND TASKS
 class BoardsScreen (Screen):
-    CSS_PATH = "../styles/boards-screen.tcss"
+    CSS_PATH = "../styles/screens/boards-screen.tcss"
 
     def __init__(self):
         super().__init__()
@@ -22,7 +20,6 @@ class BoardsScreen (Screen):
         api_client = ApiClient(base_url=os.getenv("API_BASE_URL"), token=os.getenv("API_TOKEN"))
         tasks_api = TasksApi(api_client)
         self.tasks_service = TasksService(tasks_api)
-
 
     # DO AT MOUNT OF SCREEN
     async def on_mount(self):
