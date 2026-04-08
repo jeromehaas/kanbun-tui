@@ -1,5 +1,6 @@
 import httpx
 
+# API CLIENT
 class ApiClient:
     def __init__(self, base_url: str, token: str | None = None):
         self.base_url = base_url.rstrip("/")
