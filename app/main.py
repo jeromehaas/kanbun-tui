@@ -1,4 +1,4 @@
-from app.KanbunApp import Kanbun
+from app.Kanbun import Kanbun
 
 if __name__ == "__main__":
     app = Kanbun()
