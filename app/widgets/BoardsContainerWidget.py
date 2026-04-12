@@ -8,31 +8,47 @@ from textual.message import Message
 # BOARDS CONTAINER WIDGET CLASS
 class BoardsContainerWidget(Container):
 
+    # DEFINE BOARDS
     boards = reactive([], recompose=True)
 
+    # CLASS: BOARDS SELECTED
     class BoardSelected(Message):
+
+        # METHOD: INIT
         def __init__(self, board):
-            self.board = board
+
+            # EXTEND CLASS
             super().__init__()
 
-    # BUILD WIDGET
+            # SETUP FIELDS
+            self.board = board
+
+
+    # METHOD: COMPOSE
     def compose(self) -> ComposeResult:
+
+            # SETUP FIELDS
             yield Label("Boards")
 
+            # CHECK FOR BOARDS
             if not self.boards:
                 yield Label("Keine Boards gefunden")
                 return
 
+            # SETUP LIST VIEW
             with ListView():
                 for board in self.boards:
                     yield ListItem(BoardTileWidget(board))
 
+    # HOOK: ON LIST VIEW SELECTED
     def on_list_view_selected(self, event: ListView.Selected) -> None:
+
+        # GET SELECTED ITEM
         selected_item = event.item
 
-        # Das eigentliche Board aus dem ListItem holen
+        # GET BOARD TILE and BOARD
         board_tile = selected_item.query_one(BoardTileWidget)
         board = board_tile.board
 
-        # Eigene Message an Parent senden
+        # DISPATCH SELECTED BOARD
         self.post_message(self.BoardSelected(board))

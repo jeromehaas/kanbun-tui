@@ -1,100 +1,100 @@
 import os
-import json
-
-from textual.reactive import reactive
 from dotenv import load_dotenv
+from textual.app import ComposeResult
 from textual.containers import Container
+from textual.reactive import reactive
 from textual.screen import Screen
-from textual.widgets import Static, ListView, Label, ListItem, Header, Footer, Log
+from textual.widgets import Header, Footer, Label, Log
 from app.api.ApiClient import ApiClient
 from app.api.BoardsApi import BoardsApi
 from app.api.TasksApi import TasksApi
-from app.api.LanesApi import  LanesApi
-from app.models.Board import Board
+from app.api.LanesApi import LanesApi
 from app.services.BoardsService import BoardsService
 from app.services.TasksService import TasksService
 from app.services.LanesService import LanesService
 from app.widgets.BoardsContainerWidget import BoardsContainerWidget
 from app.widgets.LanesContainerWidget import LanesContainerWidget
 
+# CLASS: BOARDS SCREEN
+class BoardsScreen(Screen):
 
-# MAIN SCREEN CLASS FOR DISPLAYING BOARDS AND TASKS
-class BoardsScreen (Screen):
+    # DEFINE SELECTED BOARD
+    selected_board = reactive("")
 
-    selected_board = reactive("None", recompose=True)
-
+    # METHOD: INIT
     def __init__(self):
+
+        # EXTEND SUPER CLASS
         super().__init__()
 
-        # LOAD DOTENV
+        # LOAD SECRETS
         load_dotenv()
 
-        # CREATE API CLIENTS
-        api_client = ApiClient(base_url=os.getenv("API_BASE_URL"), token=os.getenv("API_TOKEN"))
-        tasks_api = TasksApi(api_client)
-        boards_api = BoardsApi(api_client)
-        lanes_api = LanesApi(api_client)
-        self.tasks_service = TasksService(tasks_api)
-        self.boards_service = BoardsService(boards_api)
-        self.lanes_service = LanesService(lanes_api)
+        # CREATE CLIENT
+        api_client = ApiClient(
+            base_url=os.getenv("API_BASE_URL"),
+            token=os.getenv("API_TOKEN"),
+        )
 
+        # CREATE SERVICES
+        self.tasks_service = TasksService(TasksApi(api_client))
+        self.boards_service = BoardsService(BoardsApi(api_client))
+        self.lanes_service = LanesService(LanesApi(api_client))
 
-    # DO AT MOUNT OF SCREEN (EXAMPLE FOR LATER)
-    # async def on_mount(self):
-    #     tasks =  await self.tasks_service.get_all_tasks()
-    #     list_view = self.query_one("#tasks_list", ListView)
+    # METHOD: COMPOSE
+    def compose(self) -> ComposeResult:
 
-    #    for task in tasks:
-     #       await list_view.append(ListItem(Label(task.title)))
+        # DISPLAY CONTAINER AND CONTENTS
+        with Container(id="main-area"):
+            yield Header()
+            yield BoardsContainerWidget()
+            yield LanesContainerWidget()
+            yield Label("", id="selected-board")
+            yield Footer()
 
-    async def on_mount(self):
+    # HOOK: ON MOUNT
+    async def on_mount(self) -> None:
+
+        # FETCH AND UPDATE BOARDS
+        await self.fetch_and_update_boards()
+
+        # FETCH AND UPDATE LANES
+        await self.fetch_and_update_lanes()
+
+    # HOOK: ON BOARDS CONTAINER WIDGET BOARD SELECTED
+    async def on_boards_container_widget_board_selected(self, event: BoardsContainerWidget.BoardSelected) -> None:
+
+        # GET BOARD FROM EVENT
+        board = event.board
+
+        # UPDATE SELECTED BOARD
+        self.selected_board = str(board.id)
+
+        # FETCH AND UPDATE LANES
+        await self.fetch_and_update_lanes()
+
+    # METHOD: FETCH AND UPDATE BOARDS
+    async def fetch_and_update_boards(self):
+
+        # GET ALL BOARDS
         boards = await self.boards_service.get_all_boards()
 
-        log = self.query_one("#debug", Log)
-        log.write_line("Data received")
+        # GET BOARD WIDGET AND ASSIGN BOARDS TO IT
+        boards_widget = self.query_one(BoardsContainerWidget)
+        boards_widget.boards = boards
 
-        widget = self.query_one(BoardsContainerWidget)
-        widget.boards = boards
-
-        if boards is not None:
-            self.selected_board = boards[0].id
+        # UPDATE SELECTED BOARDS WITH FIRST ENTRY
+        if boards:
+            self.selected_board = str(boards[0].id)
         else:
             self.selected_board = ""
 
-        lanes = await self.lanes_service.get_all_lanes(25)
+    # METHOD: FETCH AND UPDATE LANES
+    async def fetch_and_update_lanes(self):
+
+        # GET ALL LANES
+        lanes = await self.lanes_service.get_all_lanes(self.selected_board)
+
+        # GET LANES WIDGET AND ASSIGN LANES TO IT
         lanes_widget = self.query_one(LanesContainerWidget)
         lanes_widget.lanes = lanes
-
-    # COMPOSE ALL CHILD WIDGETS
-    def compose(self):
-
-        # MAIN AREA CONTAINER
-        with Container(id="main-area"):
-
-            # HEADER
-            yield Header()
-
-            # MAIN CONTENT
-            yield BoardsContainerWidget()
-            yield LanesContainerWidget()
-
-
-            # FOOTER
-            yield Footer()
-
-            yield Label(str(self.selected_board))
-
-            # LOG
-            yield Log(id="debug")
-
-    def on_boards_container_widget_board_selected(self, event: BoardsContainerWidget.BoardSelected) -> None:
-        board = event.board
-
-        log = self.query_one("#debug", Log)
-        log.write_line(f"Gewähltes Board:{board.name}")
-
-        self.selected_board = board.id
-
-        # lanes = await self.lanes_service.get_all_lanes(self.selected_board)
-        # lanes_widget = self.query_one(LanesContainerWidget)
-        # lanes_widget.lanes = lanes

@@ -1,5 +1,7 @@
 from textual.screen import Screen
 
-# SCREEN CLASS FOR DISPLAYING THE EDIT-TASK DIALOGUE
+# CLASS: EDIT TASK SCREEN
 class EditTaskScreen (Screen):
+
+    # PASS ALL
     pass
