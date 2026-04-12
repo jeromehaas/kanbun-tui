@@ -1,0 +1,12 @@
+BoardsContainerWidget {
+    width: 1fr;
+    height: 100%;
+    outline: solid white;
+    margin: 1;
+    background: $surface 100%;
+}
+
+BoardsContainerWidget > Label {
+    margin-left: 1;
+    margin-bottom: 1;
+}

@@ -1,0 +1,8 @@
+TaskWidget {
+    width: 100%;
+    height: 3;
+    border: tall white;
+    background: $secondary 100%;
+    margin: 1;
+}
+

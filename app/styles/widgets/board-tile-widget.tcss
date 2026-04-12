@@ -1,0 +1,11 @@
+BoardTileWidget {
+    width: 100%;
+    height: 3;
+    border: tall white;
+    background: $primary 100%;
+    margin: 1;
+}
+
+BoardTileWidget > Label {
+    margin-left: 1;
+ }
