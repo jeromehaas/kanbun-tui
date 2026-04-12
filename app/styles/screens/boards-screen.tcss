@@ -1,4 +1,3 @@
 #main-area {
     layout: horizontal;
-    border: solid yellow;
 }

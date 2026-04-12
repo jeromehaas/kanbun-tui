@@ -12,7 +12,6 @@ from app.widgets.LanesContainer import LanesContainer
 
 # MAIN SCREEN CLASS FOR DISPLAYING BOARDS AND TASKS
 class BoardsScreen (Screen):
-    CSS_PATH = "../styles/screens/boards-screen.tcss"
 
     def __init__(self):
         super().__init__()
@@ -35,14 +34,17 @@ class BoardsScreen (Screen):
 
     # COMPOSE ALL CHILD WIDGETS
     def compose(self):
-        # HEADER
-        yield Header()
+
 
         # MAIN AREA CONTAINER
         with Container(id="main-area"):
+            # HEADER
+            yield Header()
+
             yield BoardsContainer()
             yield LanesContainer()
+
+            # FOOTER
+            yield Footer()
         #yield ListView(id="tasks_list")
 
-        # FOOTER
-        yield Footer()

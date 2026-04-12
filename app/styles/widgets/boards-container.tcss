@@ -1,6 +1,12 @@
 BoardsContainer {
     width: 1fr;
     height: 100%;
-    background: red 100%;
-    border: solid green;
+    outline: solid white;
+    margin: 1;
+    background: $surface 100%;
+}
+
+BoardsContainer > Label {
+    margin-left: 1;
+    margin-bottom: 1;
 }

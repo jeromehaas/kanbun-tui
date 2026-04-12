@@ -1,0 +1,8 @@
+LaneWidget {
+    width: 35;
+    height: 100%;
+    outline: solid white;
+    background: $primary 100%;
+    margin: 1;
+}
+

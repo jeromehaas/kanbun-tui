@@ -1,7 +1,13 @@
 LanesContainer {
     width: 3fr;
     height: 100%;
-    background: green;
-    border: solid white;
+    background: $surface;
+    outline: solid white;
+    margin: 1;
+    layout: horizontal;
 }
 
+LanesContainer > Label {
+    margin-left: 1;
+    margin-bottom: 1;
+}
