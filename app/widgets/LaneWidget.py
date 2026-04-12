@@ -7,9 +7,13 @@ from app.widgets.TaskWidget import TaskWidget
 # LANE WIDGET CLASS
 class LaneWidget(VerticalScroll):
 
+    def __init__(self, lane):
+        super().__init__()
+        self.lane = lane
+
     # BUILD WIDGET
     def compose(self)-> ComposeResult:
-        yield Label("LaneA")
+        yield Label(self.lane.name)
         yield TaskWidget()
         yield TaskWidget()
         yield TaskWidget()
