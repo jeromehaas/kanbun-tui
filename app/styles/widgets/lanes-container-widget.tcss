@@ -1,4 +1,4 @@
-LanesContainer {
+LanesContainerWidget {
     width: 3fr;
     height: 100%;
     background: $surface;
@@ -7,7 +7,7 @@ LanesContainer {
     layout: horizontal;
 }
 
-LanesContainer > Label {
+LanesContainerWidget > Label {
     margin-left: 1;
     margin-bottom: 1;
 }

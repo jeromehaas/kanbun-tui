@@ -1,4 +1,4 @@
-BoardTile {
+BoardTileWidget {
     width: 100%;
     height: 3;
     border: tall white;
@@ -6,6 +6,6 @@ BoardTile {
     margin: 1;
 }
 
-BoardTile > Label {
+BoardTileWidget > Label {
     margin-left: 1;
  }

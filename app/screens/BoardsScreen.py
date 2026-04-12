@@ -6,8 +6,8 @@ from textual.widgets import Static, ListView, Label, ListItem, Header, Footer
 from app.api.ApiClient import ApiClient
 from app.api.TasksApi import TasksApi
 from app.services.TasksService import TasksService
-from app.widgets.BoardsContainer import BoardsContainer
-from app.widgets.LanesContainer import LanesContainer
+from app.widgets.BoardsContainerWidget import BoardsContainerWidget
+from app.widgets.LanesContainerWidget import LanesContainerWidget
 
 
 # MAIN SCREEN CLASS FOR DISPLAYING BOARDS AND TASKS
@@ -41,8 +41,8 @@ class BoardsScreen (Screen):
             # HEADER
             yield Header()
 
-            yield BoardsContainer()
-            yield LanesContainer()
+            yield BoardsContainerWidget()
+            yield LanesContainerWidget()
 
             # FOOTER
             yield Footer()

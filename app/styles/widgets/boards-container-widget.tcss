@@ -1,4 +1,4 @@
-BoardsContainer {
+BoardsContainerWidget {
     width: 1fr;
     height: 100%;
     outline: solid white;
@@ -6,7 +6,7 @@ BoardsContainer {
     background: $surface 100%;
 }
 
-BoardsContainer > Label {
+BoardsContainerWidget > Label {
     margin-left: 1;
     margin-bottom: 1;
 }
