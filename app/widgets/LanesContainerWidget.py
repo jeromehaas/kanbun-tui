@@ -4,9 +4,10 @@ from textual.containers import Container, HorizontalScroll
 
 from app.widgets.LaneWidget import LaneWidget
 
-# LANES CONTAINER CLASS
+# LANES CONTAINER WIDGET CLASS
 class LanesContainerWidget(HorizontalScroll):
 
+    # BUILD WIDGET
     def compose(self) -> ComposeResult:
         yield Label("Lanes")
         yield LaneWidget()

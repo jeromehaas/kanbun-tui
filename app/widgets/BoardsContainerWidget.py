@@ -7,6 +7,7 @@ from app.widgets.BoardTileWidget import BoardTileWidget
 # BOARDS CONTAINER WIDGET CLASS
 class BoardsContainerWidget(Container):
 
+    # BUILD WIDGET
     def compose(self) -> ComposeResult:
             yield Label("Boards")
             yield BoardTileWidget()

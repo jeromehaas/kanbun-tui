@@ -4,9 +4,10 @@ from textual.containers import Container, VerticalScroll
 from app.widgets.TaskWidget import TaskWidget
 
 
-# LANE CLASS
+# LANE WIDGET CLASS
 class LaneWidget(VerticalScroll):
 
+    # BUILD WIDGET
     def compose(self)-> ComposeResult:
         yield Label("LaneA")
         yield TaskWidget()
@@ -23,4 +24,3 @@ class LaneWidget(VerticalScroll):
         yield TaskWidget()
 
 
-        

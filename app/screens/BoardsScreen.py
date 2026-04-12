@@ -24,7 +24,7 @@ class BoardsScreen (Screen):
         tasks_api = TasksApi(api_client)
         self.tasks_service = TasksService(tasks_api)
 
-    # DO AT MOUNT OF SCREEN
+    # DO AT MOUNT OF SCREEN (EXAMPLE FOR LATER)
     # async def on_mount(self):
     #     tasks =  await self.tasks_service.get_all_tasks()
     #     list_view = self.query_one("#tasks_list", ListView)
@@ -35,16 +35,17 @@ class BoardsScreen (Screen):
     # COMPOSE ALL CHILD WIDGETS
     def compose(self):
 
-
         # MAIN AREA CONTAINER
         with Container(id="main-area"):
+
             # HEADER
             yield Header()
 
+            # MAIN CONTENT
             yield BoardsContainerWidget()
             yield LanesContainerWidget()
 
             # FOOTER
             yield Footer()
-        #yield ListView(id="tasks_list")
+
 
