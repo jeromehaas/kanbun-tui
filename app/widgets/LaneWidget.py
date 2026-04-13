@@ -1,26 +1,33 @@
 from textual.app import ComposeResult
 from textual.widgets import Label
-from textual.containers import Container, VerticalScroll
+from textual.containers import Container
+from textual.reactive import reactive
 from app.widgets.TaskWidget import TaskWidget
 
+# CLASS: LANE WIDGET
+class LaneWidget(Container):
 
-# LANE WIDGET CLASS
-class LaneWidget(VerticalScroll):
+    # DEFINE LANE
+    lane = reactive(None)
 
-    # BUILD WIDGET
-    def compose(self)-> ComposeResult:
-        yield Label("LaneA")
-        yield TaskWidget()
-        yield TaskWidget()
-        yield TaskWidget()
-        yield TaskWidget()
-        yield TaskWidget()
-        yield TaskWidget()
-        yield TaskWidget()
-        yield TaskWidget()
-        yield TaskWidget()
-        yield TaskWidget()
-        yield TaskWidget()
-        yield TaskWidget()
+    # METHOD: COMPOSE
+    def compose(self) -> ComposeResult:
 
+        # SHOW MESSAGE IF NO LANE IS AVAILABLE
+        if self.lane is None:
+            yield Label("No Lane")
+            return
+
+        # PRINT LABEL FOR LANE
+        yield Label(self.lane.name)
+
+        # LOOP OVER TASKS
+        for task in self.lane.tasks:
+
+            # GET TASKS WIDGET AND ASSIGN TASKS TO IT
+            task_widget = TaskWidget()
+            task_widget.task = task
+
+            # DISPLAY TASKS WIDGET
+            yield task_widget
 

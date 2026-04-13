@@ -2,9 +2,20 @@ from textual.app import ComposeResult
 from textual.widgets import Label
 from textual.containers import Container
 
-# BOARD TILE CLASS
+# CLASS: BOARD TILE WIDGET
 class BoardTileWidget(Container):
 
-    # BUILD WIDGET
+    # METHOD: INIT
+    def __init__(self, board):
+
+        # EXTEND CLASS
+        super().__init__()
+
+        # SETUP FIELDS
+        self.board = board
+
+    # METHOD: COMPOSE
     def compose(self) -> ComposeResult:
-            yield Label("BoardName")
+
+            # DISPLAY LABEL
+            yield Label(self.board.name)
