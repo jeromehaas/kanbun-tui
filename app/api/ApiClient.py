@@ -21,3 +21,13 @@ class ApiClient:
             response = await client.get(url)
             response.raise_for_status()
             return response.json()
+
+    async def delete(self, path: str):
+        # BUILD THE URL-PATH
+        url = f"{self.base_url}/{path.lstrip('/')}"
+
+        # MAKE API-CALL AND RETURN DATA AS JSON
+        async with httpx.AsyncClient(headers=self.headers) as client:
+            response = await client.delete(url)
+            response.raise_for_status()
+            return response.json()

@@ -9,6 +9,7 @@ from app.api.ApiClient import ApiClient
 from app.api.BoardsApi import BoardsApi
 from app.api.TasksApi import TasksApi
 from app.api.LanesApi import LanesApi
+from app.screens.DeleteBoardScreen import DeleteBoardScreen
 from app.services.BoardsService import BoardsService
 from app.services.TasksService import TasksService
 from app.services.LanesService import LanesService
@@ -20,6 +21,9 @@ class BoardsScreen(Screen):
 
     # DEFINE SELECTED BOARD
     selected_board = reactive("")
+
+    # KEY BINDINGS
+    BINDINGS = [("d", "delete_selected_element", "Delete")]
 
     # METHOD: INIT
     def __init__(self):
@@ -98,3 +102,15 @@ class BoardsScreen(Screen):
         # GET LANES WIDGET AND ASSIGN LANES TO IT
         lanes_widget = self.query_one(LanesContainerWidget)
         lanes_widget.lanes = lanes
+
+    # METHOD: DELETE A SELECTED ITEM
+    def action_delete_selected_element(self):
+        #self.app.push_screen("DeleteBoardScreen")
+
+        self.app.push_screen(DeleteBoardScreen(self.selected_board))
+
+
+
+    # 1. FUNKTION: DELETE IM DELETE BOARD SCREEN (IM MODAL)
+    # 2. FUNCTION IN API-SERVICE SCHREIBEN (LÖSCHEN)
+    #    - BOARD LöSCHEN UND MODAL SCHLIESSEN
