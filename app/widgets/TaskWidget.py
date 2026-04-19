@@ -9,6 +9,10 @@ class TaskWidget(Container):
     # DEFINE TASKS
     task = reactive(None)
 
+    def __init__(self,task):
+        super().__init__()
+        self.task = task
+
     # METHOD: COMPOSE
     def compose(self) -> ComposeResult:
 

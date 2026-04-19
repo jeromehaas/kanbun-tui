@@ -1,5 +1,6 @@
 from textual.app import ComposeResult
-from textual.widgets import Label
+from textual.message import Message
+from textual.widgets import Label, ListView,ListItem
 from textual.containers import Container
 from textual.reactive import reactive
 from app.widgets.TaskWidget import TaskWidget
@@ -21,13 +22,29 @@ class LaneWidget(Container):
         # PRINT LABEL FOR LANE
         yield Label(self.lane.name)
 
-        # LOOP OVER TASKS
-        for task in self.lane.tasks:
+        with ListView():
+            # LOOP OVER TASKS
+            for task in self.lane.tasks:
+                yield ListItem(TaskWidget(task))
 
-            # GET TASKS WIDGET AND ASSIGN TASKS TO IT
-            task_widget = TaskWidget()
-            task_widget.task = task
+    class TaskSelected(Message):
 
-            # DISPLAY TASKS WIDGET
-            yield task_widget
+        # METHOD: INIT
+        def __init__(self, task_id):
 
+            # EXTEND CLASS
+            super().__init__()
+
+            # SETUP FIELDS
+            self.task = task_id
+    def on_list_view_selected(self, event: ListView.Selected) -> None:
+
+        # GET SELECTED ITEM
+        selected_item = event.item
+
+        # GET BOARD TILE and BOARD
+        task_widget = selected_item.query_one(TaskWidget)
+        task_id = task_widget.id
+
+        # DISPATCH SELECTED BOARD
+        self.post_message(self.TaskSelected(task_id))
