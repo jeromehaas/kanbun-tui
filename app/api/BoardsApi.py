@@ -8,3 +8,7 @@ class BoardsApi:
     # GET ALL BOARDS
     async def get_all_boards(self):
         return await self.api_client.get('/boards')
+
+    async def delete_board_by_id(self, board_id: int):
+        return await self.api_client.delete(f'/boards/{board_id}')
+

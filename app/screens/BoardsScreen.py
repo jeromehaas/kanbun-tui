@@ -9,6 +9,7 @@ from app.api.ApiClient import ApiClient
 from app.api.BoardsApi import BoardsApi
 from app.api.TasksApi import TasksApi
 from app.api.LanesApi import LanesApi
+from app.screens.DeleteBoardScreen import DeleteBoardScreen
 from app.services.BoardsService import BoardsService
 from app.services.TasksService import TasksService
 from app.services.LanesService import LanesService
@@ -19,7 +20,10 @@ from app.widgets.LanesContainerWidget import LanesContainerWidget
 class BoardsScreen(Screen):
 
     # DEFINE SELECTED BOARD
-    selected_board = reactive("")
+    selected_board_id = reactive("")
+
+    # KEY BINDINGS
+    BINDINGS = [("d", "delete_selected_element", "Delete")]
 
     # METHOD: INIT
     def __init__(self):
@@ -54,12 +58,17 @@ class BoardsScreen(Screen):
 
     # HOOK: ON MOUNT
     async def on_mount(self) -> None:
+        await self.reload_screen()
+
+    # METHOD: RELOAD ALL DATA IN SCREEN
+    async def reload_screen(self) -> None:
 
         # FETCH AND UPDATE BOARDS
         await self.fetch_and_update_boards()
 
         # FETCH AND UPDATE LANES
         await self.fetch_and_update_lanes()
+
 
     # HOOK: ON BOARDS CONTAINER WIDGET BOARD SELECTED
     async def on_boards_container_widget_board_selected(self, event: BoardsContainerWidget.BoardSelected) -> None:
@@ -68,7 +77,7 @@ class BoardsScreen(Screen):
         board = event.board
 
         # UPDATE SELECTED BOARD
-        self.selected_board = str(board.id)
+        self.selected_board_id = str(board.id)
 
         # FETCH AND UPDATE LANES
         await self.fetch_and_update_lanes()
@@ -85,16 +94,22 @@ class BoardsScreen(Screen):
 
         # UPDATE SELECTED BOARDS WITH FIRST ENTRY
         if boards:
-            self.selected_board = str(boards[0].id)
+            self.selected_board_id = str(boards[0].id)
         else:
-            self.selected_board = ""
+            self.selected_board_id = ""
 
     # METHOD: FETCH AND UPDATE LANES
     async def fetch_and_update_lanes(self):
 
         # GET ALL LANES
-        lanes = await self.lanes_service.get_all_lanes(self.selected_board)
+        lanes = await self.lanes_service.get_all_lanes(self.selected_board_id)
 
         # GET LANES WIDGET AND ASSIGN LANES TO IT
         lanes_widget = self.query_one(LanesContainerWidget)
         lanes_widget.lanes = lanes
+
+    # METHOD: DELETE A SELECTED ITEM
+    def action_delete_selected_element(self):
+
+        # DISPLAY DELETE SCREEN
+        self.app.push_screen(DeleteBoardScreen(self.selected_board_id))
