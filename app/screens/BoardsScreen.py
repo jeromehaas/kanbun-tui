@@ -105,12 +105,6 @@ class BoardsScreen(Screen):
 
     # METHOD: DELETE A SELECTED ITEM
     def action_delete_selected_element(self):
-        #self.app.push_screen("DeleteBoardScreen")
 
+        # DISPLAY DELETE SCREEN
         self.app.push_screen(DeleteBoardScreen(self.selected_board))
-
-
-
-    # 1. FUNKTION: DELETE IM DELETE BOARD SCREEN (IM MODAL)
-    # 2. FUNCTION IN API-SERVICE SCHREIBEN (LÖSCHEN)
-    #    - BOARD LöSCHEN UND MODAL SCHLIESSEN

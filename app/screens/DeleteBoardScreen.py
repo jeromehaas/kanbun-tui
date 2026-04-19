@@ -37,3 +37,6 @@ class DeleteBoardScreen(Screen):
         if event.button.id == "delete":
             await self.boards_api.delete_board_by_id(self.board_id)
             self.app.pop_screen()
+
+        if event.button.id == "cancel":
+            self.app.pop_screen()
