@@ -58,12 +58,17 @@ class BoardsScreen(Screen):
 
     # HOOK: ON MOUNT
     async def on_mount(self) -> None:
+        await self.reload_screen()
+
+    # METHOD: RELOAD ALL DATA IN SCREEN
+    async def reload_screen(self) -> None:
 
         # FETCH AND UPDATE BOARDS
         await self.fetch_and_update_boards()
 
         # FETCH AND UPDATE LANES
         await self.fetch_and_update_lanes()
+
 
     # HOOK: ON BOARDS CONTAINER WIDGET BOARD SELECTED
     async def on_boards_container_widget_board_selected(self, event: BoardsContainerWidget.BoardSelected) -> None:

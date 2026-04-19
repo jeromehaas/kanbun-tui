@@ -28,8 +28,8 @@ class DeleteBoardScreen(Screen):
         yield Grid(
     Label("Delete Board", id="title"),
              Label(f"Do you want to delete the board {self.board_name}?", id="question"),
-             Button("Delete Board",variant="primary" ,id="delete"),
-             Button("Cancel", variant="primary", id="cancel"), id="dialog"
+            Button("Cancel", variant="primary", id="cancel"),
+             Button("OK",variant="primary" ,id="delete"), id="dialog"
         )
 
     async def on_button_pressed(self, event: Button.Pressed):
@@ -37,6 +37,8 @@ class DeleteBoardScreen(Screen):
         if event.button.id == "delete":
             await self.boards_api.delete_board_by_id(self.board_id)
             self.app.pop_screen()
+            await self.app.screen.reload_screen()
 
         if event.button.id == "cancel":
             self.app.pop_screen()
+            await self.app.screen.reload_screen()
