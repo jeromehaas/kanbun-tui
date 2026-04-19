@@ -5,15 +5,15 @@ from textual.containers import Container, Grid
 from app.api.ApiClient import ApiClient
 from app.api.BoardsApi import BoardsApi
 from app.services.BoardsService import BoardsService
+from app.models.Board import Board
 
 
 # SCREEN CLASS FOR DELETE A BOARD
 class DeleteBoardScreen(Screen):
 
-    def __init__(self, board_id=None):
+    def __init__(self, board: Board=None):
         super().__init__()
-        self.board_name = None
-        self.board_id = board_id
+        self.board = board
 
         # CREATE CLIENT
         api_client = ApiClient(
@@ -28,7 +28,7 @@ class DeleteBoardScreen(Screen):
     def compose(self):
         yield Grid(
     Label("Delete Board", id="title"),
-             Label(f"Do you want to delete the board {self.board_name}?", id="question"),
+             Label(f"Do you want to delete the board {self.board.name}?", id="question"),
             Button("Cancel", variant="primary", id="cancel"),
              Button("OK",variant="primary" ,id="ok"), id="dialog"
         )
@@ -38,7 +38,7 @@ class DeleteBoardScreen(Screen):
 
         # IF OK BUTTON
         if event.button.id == "ok":
-            await self.boards_api.delete_board_by_id(self.board_id)
+            await self.boards_api.delete_board_by_id(self.board.id)
             self.app.pop_screen()
             await self.app.screen.reload_screen()
 

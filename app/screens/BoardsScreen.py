@@ -16,13 +16,16 @@ from app.services.LanesService import LanesService
 from app.widgets.BoardsContainerWidget import BoardsContainerWidget
 from app.widgets.LaneWidget import LaneWidget
 from app.widgets.LanesContainerWidget import LanesContainerWidget
+from app.models.Board import Board
 
 # CLASS: BOARDS SCREEN
 class BoardsScreen(Screen):
 
     # DEFINE SELECTED ELEMENTS
-    selected_board_id = reactive("")
+    selected_board = reactive(None)
+
     selected_lane_id = reactive("")
+
     selected_task_id = reactive("")
 
     # KEY BINDINGS
@@ -81,6 +84,7 @@ class BoardsScreen(Screen):
 
         # UPDATE SELECTED BOARD
         self.selected_board_id = str(board.id)
+        self.selected_board = board
 
         # FETCH AND UPDATE LANES
         await self.fetch_and_update_lanes()
@@ -94,7 +98,7 @@ class BoardsScreen(Screen):
     async def fetch_and_update_boards(self):
 
         # GET ALL BOARDS
-        boards = await self.boards_service.get_all_boards()
+        boards: list[Board] = await self.boards_service.get_all_boards()
 
         # GET BOARD WIDGET AND ASSIGN BOARDS TO IT
         boards_widget = self.query_one(BoardsContainerWidget)
@@ -103,8 +107,10 @@ class BoardsScreen(Screen):
         # UPDATE SELECTED BOARDS WITH FIRST ENTRY
         if boards:
             self.selected_board_id = str(boards[0].id)
+            self.selected_board = boards[0]
         else:
             self.selected_board_id = ""
+            self.selected_board = []
 
     # METHOD: FETCH AND UPDATE LANES
     async def fetch_and_update_lanes(self):
@@ -120,4 +126,4 @@ class BoardsScreen(Screen):
     def action_delete_selected_element(self):
 
         # DISPLAY DELETE SCREEN
-        self.app.push_screen(DeleteBoardScreen(self.selected_board_id))
+        self.app.push_screen(DeleteBoardScreen(self.selected_board))
