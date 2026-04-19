@@ -20,7 +20,7 @@ from app.widgets.LanesContainerWidget import LanesContainerWidget
 class BoardsScreen(Screen):
 
     # DEFINE SELECTED BOARD
-    selected_board = reactive("")
+    selected_board_id = reactive("")
 
     # KEY BINDINGS
     BINDINGS = [("d", "delete_selected_element", "Delete")]
@@ -72,7 +72,7 @@ class BoardsScreen(Screen):
         board = event.board
 
         # UPDATE SELECTED BOARD
-        self.selected_board = str(board.id)
+        self.selected_board_id = str(board.id)
 
         # FETCH AND UPDATE LANES
         await self.fetch_and_update_lanes()
@@ -89,15 +89,15 @@ class BoardsScreen(Screen):
 
         # UPDATE SELECTED BOARDS WITH FIRST ENTRY
         if boards:
-            self.selected_board = str(boards[0].id)
+            self.selected_board_id = str(boards[0].id)
         else:
-            self.selected_board = ""
+            self.selected_board_id = ""
 
     # METHOD: FETCH AND UPDATE LANES
     async def fetch_and_update_lanes(self):
 
         # GET ALL LANES
-        lanes = await self.lanes_service.get_all_lanes(self.selected_board)
+        lanes = await self.lanes_service.get_all_lanes(self.selected_board_id)
 
         # GET LANES WIDGET AND ASSIGN LANES TO IT
         lanes_widget = self.query_one(LanesContainerWidget)
@@ -107,4 +107,4 @@ class BoardsScreen(Screen):
     def action_delete_selected_element(self):
 
         # DISPLAY DELETE SCREEN
-        self.app.push_screen(DeleteBoardScreen(self.selected_board))
+        self.app.push_screen(DeleteBoardScreen(self.selected_board_id))
