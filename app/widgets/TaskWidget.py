@@ -2,6 +2,7 @@ from textual.app import ComposeResult
 from textual.widgets import Label
 from textual.containers import Container
 from textual.reactive import reactive
+from app.models.Task import Task
 
 # CLASS: TASK WIDGET
 class TaskWidget(Container):
@@ -9,7 +10,7 @@ class TaskWidget(Container):
     # DEFINE TASKS
     task = reactive(None)
 
-    def __init__(self,task):
+    def __init__(self, task: Task):
         super().__init__()
         self.task = task
 
@@ -22,4 +23,4 @@ class TaskWidget(Container):
             return
 
         # DISPLAY LABEL
-        yield Label(self.task["title"])
+        yield Label(self.task.title)
