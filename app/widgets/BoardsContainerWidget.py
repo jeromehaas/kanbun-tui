@@ -52,3 +52,16 @@ class BoardsContainerWidget(Container):
 
         # DISPATCH SELECTED BOARD
         self.post_message(self.BoardSelected(board))
+
+    # HOOK: ON LIST VIEW SELECTED
+    def on_list_view_highlighted(self, event: ListView.Highlighted) -> None:
+
+        # GET SELECTED ITEM
+        selected_item = event.item
+
+        # GET BOARD TILE and BOARD
+        board_tile = selected_item.query_one(BoardTileWidget)
+        board = board_tile.board
+
+        # DISPATCH SELECTED BOARD
+        self.post_message(self.BoardSelected(board))
