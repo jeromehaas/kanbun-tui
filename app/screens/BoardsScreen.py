@@ -9,7 +9,10 @@ from app.api.ApiClient import ApiClient
 from app.api.BoardsApi import BoardsApi
 from app.api.TasksApi import TasksApi
 from app.api.LanesApi import LanesApi
+from app.screens import EditBoardScreen
+from app.screens.CreateBoardScreen import CreateBoardScreen
 from app.screens.DeleteBoardScreen import DeleteBoardScreen
+from app.screens.EditBoardScreen import EditBoardScreen
 from app.services.BoardsService import BoardsService
 from app.services.TasksService import TasksService
 from app.services.LanesService import LanesService
@@ -30,7 +33,8 @@ class BoardsScreen(Screen):
     # KEY BINDINGS
     BINDINGS = [
         ("d", "delete_selected_board", "Delete Board"),
-        ("r", "rename_selected_board", "Rename Board"),
+        ("e", "edit_selected_board", "Edit Board"),
+        ("c", "create_board", "Create Board"),
         ("d", "delete_selected_lane", "Delete Lane"),
         ("d", "delete_selected_task", "Delete Task"),
     ]
@@ -79,6 +83,8 @@ class BoardsScreen(Screen):
         # FETCH AND UPDATE LANES
         await self.fetch_and_update_lanes()
 
+        # DEBUG
+        self.notify("Refreshed screen")
     # HOOK: ON TASKS SELECTED
     def on_lane_widget_task_selected(self, event: LaneWidget.TaskSelected) -> None:
 
@@ -168,16 +174,17 @@ class BoardsScreen(Screen):
         self.notify(str('ACTION: DELETE SELECTED TASKS'))
 
 
-    # METHOD: DELETE THE SELECTED BOARD
-    def action_rename_selected_board(self):
+    # METHOD: CREATE A NEW BOARD
+    def action_create_board(self):
+        self.app.push_screen(CreateBoardScreen())
+        self.refresh_bindings()
 
-        # RENAME SCREEN
-        self.notify(str('ACTION: RENAME SELECTED BOARD'))
-
+    def action_edit_selected_board(self):
+        self.app.push_screen(EditBoardScreen(self.selected_board))
 
     def check_action(self, action: str, parameters: tuple[object, ...]) -> bool | None:
         if self.current_context == "board":
-            return action in ("delete_selected_board", "rename_selected_board")
+            return action in ("delete_selected_board", "rename_selected_board", "create_board", "edit_selected_board")
         if self.current_context == "lane":
             return action in ("delete_selected_lane",)
         if self.current_context == "task":

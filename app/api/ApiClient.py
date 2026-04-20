@@ -1,3 +1,4 @@
+import json
 import httpx
 
 # API CLIENT
@@ -29,5 +30,30 @@ class ApiClient:
         # MAKE API-CALL AND RETURN DATA AS JSON
         async with httpx.AsyncClient(headers=self.headers) as client:
             response = await client.delete(url)
+            response.raise_for_status()
+            return response.json()
+
+    async def post(self, path: str, data: dict):
+        # BUILD THE URL-PATH
+        url = f"{self.base_url}/{path.lstrip('/')}"
+
+        # CONVERT DICT TO JSON
+        json_string = json.dumps(data)
+
+        async with httpx.AsyncClient(headers=self.headers) as client:
+            response = await client.post(url, content=json_string)
+            response.raise_for_status()
+            return response.json()
+
+    async def patch(self, path: str, data: dict):
+
+        # BUILD THE URL-PATH
+        url = f"{self.base_url}/{path.lstrip('/')}"
+
+        # CONVERT DICT TO JSON
+        json_string = json.dumps(data)
+
+        async with httpx.AsyncClient(headers=self.headers) as client:
+            response = await client.patch(url, content=json_string)
             response.raise_for_status()
             return response.json()
