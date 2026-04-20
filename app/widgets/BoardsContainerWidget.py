@@ -9,7 +9,7 @@ from textual.message import Message
 class BoardsContainerWidget(Container):
 
     # DEFINE BOARDS
-    boards = reactive([], recompose=True)
+    boards = reactive([], recompose=True, always_update=True)
 
     # CLASS: BOARDS SELECTED
     class BoardSelected(Message):

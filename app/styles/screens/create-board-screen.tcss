@@ -1,5 +1,6 @@
 CreateBoardScreen {
     align: center middle;
+    background: $background 60%;
 }
 
 CreateBoardScreen #dialog {
