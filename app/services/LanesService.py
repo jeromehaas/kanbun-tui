@@ -12,11 +12,11 @@ class LanesService:
         # SETUP FIELDS
         self.lanes_api = lanes_api
 
-    # METHODS: GET ALL BOARDS
+    # METHOD: GET ALL BOARDS
     async def get_all_lanes(self, board: Board) -> list[Lane]:
 
         # GET ALL LANES
-        data = await self.lanes_api.get_all_lanes(board.id)
+        data = await self.lanes_api.get_all_lanes(board)
 
         # RETURN LANES
         return [Lane(
@@ -32,3 +32,72 @@ class LanesService:
                 for task in item["tasks"]
             ])
             for item in data]
+
+    # METHOD: CREATE LANE
+    async def create_lane(self, board: Board, data: Lane) -> Lane:
+
+        # GET ALL LANES
+        data = await self.lanes_api.create_lane(board, data)
+
+        # RETURN LANE
+        return Lane(
+            id=data["id"],
+            name=data["name"],
+            position=data["position"],
+            tasks=[]
+        )
+
+    # METHOD: DELETE LANE
+    async def delete_lane(self, board: Board, lane: Lane) -> Lane:
+
+        # GET ALL LANES
+        data = await self.lanes_api.delete_lane(board, lane)
+
+        # RETURN LANE
+        return Lane(
+            id=data["id"],
+            name=data["name"],
+            position=data["position"],
+            tasks=[]
+        )
+
+    # METHOD: EDIT LANE
+    async def edit_lane(self, board: Board, lane: Lane, data: Lane) -> Lane:
+
+        # GET ALL LANES
+        data = await self.lanes_api.edit_lane(board, lane, data)
+
+        # RETURN LANES
+        return Lane(
+            id=data["id"],
+            name=data["name"],
+            position=data["position"],
+            tasks=[
+                Task(
+                    id=task["id"],
+                    title=task["title"],
+                    description=task["description"],
+                )
+                for task in data.get("tasks", [])
+            ])
+
+    # METHOD: MOVE LANE
+    async def move_lane(self, board: Board, lane: Lane, direction: str) -> Lane:
+
+        # MOVE LANE
+        data = await self.lanes_api.move_lane(board, lane, direction)
+
+        # RETURN LANE
+        return Lane(
+            id=data["id"],
+            name=data["name"],
+            position=data["position"],
+            tasks=[
+                Task(
+                    id=task["id"],
+                    title=task["title"],
+                    description=task["description"],
+                )
+                for task in data.get("tasks", [])
+            ])
+
