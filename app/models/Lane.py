@@ -1,10 +1,10 @@
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from .Task import Task
 
 # BOARD DATA CLASS
 @dataclass
 class Lane:
-    id: int
     name: str
-    position: int
-    tasks: list[Task]
+    id: int | None = None
+    position: int | None = None
+    tasks: list[Task] = field(default_factory=list)
