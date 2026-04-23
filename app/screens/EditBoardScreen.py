@@ -1,10 +1,9 @@
 import os
-from textual.screen import ModalScreen, Screen
+from textual.screen import Screen
 from textual.widgets import Label, Button, Input
-from textual.containers import Container, Grid
+from textual.containers import Grid
 from app.api.ApiClient import ApiClient
 from app.api.BoardsApi import BoardsApi
-from app.services.BoardsService import BoardsService
 from app.models.Board import Board
 
 

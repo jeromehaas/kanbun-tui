@@ -9,7 +9,15 @@ from app.screens.EditBoardScreen import EditBoardScreen
 class Kanbun(App):
 
     # PATHS TO CSS FILES
-    CSS_PATH = ["./styles/screens/boards-screen.tcss","./styles/widgets/boards-container-widget.tcss","./styles/widgets/lanes-container-widget.tcss","./styles/widgets/board-tile-widget.tcss","./styles/widgets/task-widget.tcss","./styles/widgets/lane-widget.tcss", "./styles/screens/delete-board-screen.tcss", "./styles/screens/create-board-screen.tcss", "./styles/screens/edit-board-screen.tcss"]
+    CSS_PATH = ["./styles/screens/boards-screen.tcss",
+                "./styles/widgets/boards-container-widget.tcss",
+                "./styles/widgets/lanes-container-widget.tcss",
+                "./styles/widgets/board-tile-widget.tcss",
+                "./styles/widgets/task-widget.tcss",
+                "./styles/widgets/lane-widget.tcss",
+                "./styles/screens/delete-board-screen.tcss",
+                "./styles/screens/create-board-screen.tcss",
+                "./styles/screens/edit-board-screen.tcss"]
 
     # HOOK: ON MOUNT
     def on_mount(self) -> None:

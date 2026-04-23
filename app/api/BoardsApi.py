@@ -11,15 +11,17 @@ class BoardsApi:
     async def get_all_boards(self):
         return await self.api_client.get('/boards')
 
+    # DELETE BOARD BY ID
     async def delete_board_by_id(self, board_id: int):
         return await self.api_client.delete(f'/boards/{board_id}')
 
+    # CREATE NEW BOARD
     async def create_board(self, board: Board):
         data = {"name": board.name}
         return await self.api_client.post(f'/boards', data)
 
+    # EDIT BOARD BY ID
     async def edit_board_by_id(self, board: Board):
         board_id = board.id
         data = {"name": board.name}
-
         return await self.api_client.patch(f'/boards/{board_id}', data)
