@@ -47,3 +47,13 @@ class TasksService:
             title=data["title"],
             description=data["description"],
         )
+    async def delete_task(self, board: Board, lane: Lane, task: Task) -> Task:
+        # EDIT TASK
+        data = await self.tasks_api.delete_task(board=board, lane=lane, task=task)
+
+        # RETURN DELETED TASK
+        return Task(
+            id=data["id"],
+            title=data["title"],
+            description=data["description"],
+        )

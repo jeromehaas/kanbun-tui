@@ -24,6 +24,7 @@ class Kanbun(App):
                 "./styles/screens/edit-lane-screen.tcss",
                 "./styles/screens/create-task-screen.tcss",
                 "./styles/screens/edit-task-screen.tcss",
+                "./styles/screens/delete-task-screen.tcss",
                 ]
 
     # HOOK: ON MOUNT

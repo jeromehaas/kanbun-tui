@@ -9,6 +9,7 @@ from textual.binding import Binding
 from app.api import ApiClient, BoardsApi, LanesApi, TasksApi
 from app.screens import (CreateLaneScreen, DeleteBoardScreen, DeleteLaneScreen, EditLaneScreen, MoveLeftLaneScreen,
                          MoveRightLaneScreen, CreateBoardScreen, DeleteBoardScreen, EditBoardScreen, CreateTaskScreen)
+from app.screens.DeleteTaskScreen import DeleteTaskScreen
 from app.screens.EditTaskScreen import EditTaskScreen
 from app.services import BoardsService, LanesService, TasksService
 from app.widgets import BoardsContainerWidget, LaneWidget, LanesContainerWidget
@@ -228,7 +229,10 @@ class BoardsScreen(Screen):
 
     # METHOD: DELETE SELECTED TASK
     def action_delete_selected_task(self):
-        return
+        self.app.push_screen(DeleteTaskScreen(self.selected_board, self.selected_lane, self.selected_task))
+
+        # REFRESH BINDINGS
+        self.refresh_bindings()
 
     # METHOD CHECK ACTION
     def check_action(self, action: str, parameters: tuple[object, ...]) -> bool | None:

@@ -23,3 +23,7 @@ class TasksApi:
                                           {"title": task.title,
                                            "description": task.description,
                                            })
+
+    async def delete_task(self,board:Board, lane:Lane, task:Task):
+        return await self.api_client.delete(f'/boards/{board.id}/lanes/{lane.id}/tasks/{task.id}')
+                
