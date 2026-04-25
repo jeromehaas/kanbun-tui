@@ -79,11 +79,15 @@ class BoardsScreen(Screen):
     # METHOD: RELOAD ALL DATA IN SCREEN
     async def reload_screen(self) -> None:
 
+        selected_board_id = self.selected_board.id if self.selected_board else None
+        selected_lane_id = self.selected_lane.id if self.selected_lane else None
+        selected_task_id = self.selected_task.id if self.selected_task else None
+
         # FETCH AND UPDATE BOARDS
-        await self.fetch_and_update_boards()
+        await self.fetch_and_update_boards(selected_board_id)
 
         # FETCH AND UPDATE LANES
-        await self.fetch_and_update_lanes()
+        await self.fetch_and_update_lanes(selected_lane_id, selected_task_id)
 
     # HOOK: ON TASKS SELECTED
     def on_lane_widget_task_selected(self, event: LaneWidget.TaskSelected) -> None:
@@ -129,30 +133,59 @@ class BoardsScreen(Screen):
 
 
     # METHOD: FETCH AND UPDATE BOARDS
-    async def fetch_and_update_boards(self):
+    async def fetch_and_update_boards(self, selected_board_id=None):
 
         # GET ALL BOARDS
         boards: list[Board] = await self.boards_service.get_all_boards()
 
         # GET BOARD WIDGET AND ASSIGN BOARDS TO IT
         boards_widget = self.query_one(BoardsContainerWidget)
+        boards_widget.selected_board_id = selected_board_id
         boards_widget.boards = boards
 
-        # UPDATE SELECTED BOARDS WITH FIRST ENTRY
-        if boards:
-            self.selected_board = boards[0]
-        else:
-            self.selected_board = []
+        # KEEP SELECTED BOARD IF STILL AVAILABLE
+        self.selected_board = next(
+            (board for board in boards if board.id == selected_board_id),
+            boards[0] if boards else None,
+        )
 
     # METHOD: FETCH AND UPDATE LANES
-    async def fetch_and_update_lanes(self):
+    async def fetch_and_update_lanes(self, selected_lane_id=None, selected_task_id=None):
+
+        # RESET IF NO BOARD IS SELECTED
+        if self.selected_board is None:
+            lanes_widget = self.query_one(LanesContainerWidget)
+            lanes_widget.selected_lane_id = None
+            lanes_widget.selected_task_id = None
+            lanes_widget.lanes = []
+            self.selected_lane = None
+            self.selected_task = None
+            return
 
         # GET ALL LANES
         lanes = await self.lanes_service.get_all_lanes(self.selected_board)
 
         # GET LANES WIDGET AND ASSIGN LANES TO IT
         lanes_widget = self.query_one(LanesContainerWidget)
+        lanes_widget.selected_lane_id = selected_lane_id
+        lanes_widget.selected_task_id = selected_task_id
         lanes_widget.lanes = lanes
+
+        # KEEP SELECTED LANE IF STILL AVAILABLE
+        self.selected_lane = next(
+            (lane for lane in lanes if lane.id == selected_lane_id),
+            lanes[0] if lanes else None,
+        )
+
+        # KEEP SELECTED TASK IF STILL AVAILABLE
+        if self.selected_lane is None:
+            self.selected_task = None
+            return
+
+        self.selected_task = next(
+            (task for task in self.selected_lane.tasks if task.id == selected_task_id),
+            None,
+        )
 
     # METHOD: CREATE A NEW BOARD
     def action_create_board(self):
