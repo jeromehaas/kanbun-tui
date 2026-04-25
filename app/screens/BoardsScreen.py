@@ -7,7 +7,8 @@ from textual.screen import Screen
 from textual.widgets import Header, Footer, Label, Log
 from textual.binding import Binding
 from app.api import ApiClient, BoardsApi, LanesApi, TasksApi
-from app.screens import (CreateLaneScreen, DeleteBoardScreen, DeleteLaneScreen, EditLaneScreen, MoveLeftLaneScreen, MoveRightLaneScreen,CreateBoardScreen,DeleteBoardScreen,EditBoardScreen)
+from app.screens import (CreateLaneScreen, DeleteBoardScreen, DeleteLaneScreen, EditLaneScreen, MoveLeftLaneScreen,
+                         MoveRightLaneScreen, CreateBoardScreen, DeleteBoardScreen, EditBoardScreen, CreateTaskScreen)
 from app.services import BoardsService, LanesService, TasksService
 from app.widgets import BoardsContainerWidget, LaneWidget, LanesContainerWidget
 from app.models import Board
@@ -212,6 +213,7 @@ class BoardsScreen(Screen):
 
     # METHOD: CREATE TASK
     def action_create_task(self):
+        self.app.push_screen(CreateTaskScreen(self.selected_board, self.selected_lane))
         return
 
     # METHOD: EDIT SELECTED TASK

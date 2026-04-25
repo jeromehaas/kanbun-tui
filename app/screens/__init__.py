@@ -6,3 +6,4 @@ from .MoveLeftLaneScreen import MoveLeftLaneScreen
 from .MoveRightLaneScreen import MoveRightLaneScreen
 from .EditBoardScreen import EditBoardScreen
 from .CreateBoardScreen import CreateBoardScreen
+from .CreateTaskScreen import CreateTaskScreen
