@@ -39,10 +39,15 @@ class CreateBoardScreen(Screen):
         if event.button.id == "ok":
 
             # GET VALUE FROM INPUT
-            self.board.name = self.query_one("#input_board_name", Input).value
+            board_name = self.query_one("#input_board_name", Input).value
+
+            # WRITE DATA
+            data = Board(
+                name=board_name,
+            )
 
             # POST DATA
-            await self.boards_api.create_board(self.board)
+            await self.boards_api.create_board(data)
 
             # CLOSE SCREEN AND REFRESH
             self.app.pop_screen()

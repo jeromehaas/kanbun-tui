@@ -20,6 +20,8 @@ source .venv/bin/activate
 Install dependencies:
 ```bash
 pip install -r requirements.txt
+
+
 ```
 
 ## Environment variables
@@ -36,4 +38,16 @@ In the root of the application, run this command:
 
 ```bash
 python -m app.main
+```
+
+## Run the application in developer move
+
+```bash
+textual run app.main --dev
+```
+
+Next, open a new terminal session and run the logs:
+
+```bash
+textual console
 ```
