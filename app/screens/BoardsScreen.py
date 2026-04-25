@@ -6,9 +6,9 @@ from textual.reactive import reactive
 from textual.screen import Screen
 from textual.widgets import Header, Footer, Label, Log
 from textual.binding import Binding
-from app.api import ApiClient, BoardsApi, LanesApi, TasksApi
-from app.screens import (CreateLaneScreen, DeleteBoardScreen, DeleteLaneScreen, EditLaneScreen, MoveLeftLaneScreen,
-                         MoveRightLaneScreen, CreateBoardScreen, DeleteBoardScreen, EditBoardScreen, CreateTaskScreen)
+from app.api import ApiClient, BoardsApi, LanesApi, TasksApi, ApiError
+from app.screens import (CreateLaneScreen, DeleteBoardScreen, DeleteLaneScreen, EditLaneScreen,
+                         CreateBoardScreen, DeleteBoardScreen, EditBoardScreen, CreateTaskScreen)
 from app.screens.DeleteTaskScreen import DeleteTaskScreen
 from app.screens.EditTaskScreen import EditTaskScreen
 from app.services import BoardsService, LanesService, TasksService
@@ -189,19 +189,51 @@ class BoardsScreen(Screen):
         self.refresh_bindings()
 
     # METHOD: MOVE SELECTED LANE LEFT
-    def action_move_left_selected_lane(self):
+    async def action_move_left_selected_lane(self):
 
-        # SHOW MODAL
-        self.app.push_screen(MoveLeftLaneScreen(self.selected_board, self.selected_lane))
+        # TRY-CATCH BLOCK
+        try:
+
+            # SET DIRECTION
+            direction = "left"
+
+            # MOVE LANE
+            await self.lanes_service.move_lane(self.selected_board, self.selected_lane, direction)
+
+        # HANDLE ERRORS
+        except ApiError as error:
+
+            # NOTIFY ABOUT ERROR
+            self.notify(error.message, severity="error")
+            return
+
+        # UPDATE AND RELOAD SCREEN
+        await self.app.screen.reload_screen()
 
         # REFRESH BINDINGS
         self.refresh_bindings()
 
     # METHOD: MOVE SELECTED LANE RIGHT
-    def action_move_right_selected_lane(self):
+    async def action_move_right_selected_lane(self):
 
-        # SHOW MODAL
-        self.app.push_screen(MoveRightLaneScreen(self.selected_board, self.selected_lane))
+        # TRY-CATCH BLOCK
+        try:
+
+            # SET DIRECTION
+            direction = "right"
+
+            # MOVE LANE
+            await self.lanes_service.move_lane(self.selected_board, self.selected_lane, direction)
+
+        # HANDLE ERRORS
+        except ApiError as error:
+
+            # NOTIFY ABOUT ERROR
+            self.notify(error.message, severity="error")
+            return
+
+        # UPDATE AND RELOAD SCREEN
+        await self.app.screen.reload_screen()
 
         # REFRESH BINDINGS
         self.refresh_bindings()
