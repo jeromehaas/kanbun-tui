@@ -29,14 +29,16 @@ class BoardsScreen(Screen):
         Binding("d", "delete_selected_board", "Delete Board"),
         Binding("c", "create_lane", "Create Lane"),
         Binding("d", "delete_selected_lane", "Delete Lane"),
-        Binding("left", "move_left_selected_lane", "Move Lane Left", priority=True),
-        Binding("right", "move_right_selected_lane", "Move Lane Right", priority=True),
+        Binding("shift+left", "move_left_selected_lane", "Move Lane Left", priority=True),
+        Binding("shift+right", "move_right_selected_lane", "Move Lane Right", priority=True),
         Binding("e", "edit_selected_lane", "Edit Lane"),
         Binding("e", "edit_selected_board", "Edit Board"),
         Binding("c", "create_board", "Create Board"),
         Binding("d", "delete_selected_task", "Delete Task"),
         Binding("n", "create_task", "Create Task"),
         Binding("e", "edit_selected_task", "Edit Task"),
+        Binding("ctrl+left", "move_left_selected_task", "Move Task Left"),
+        Binding("ctrl+right", "move_right_selected_task", "Move Task Right"),
     ]
 
     # METHOD: INIT
@@ -234,6 +236,24 @@ class BoardsScreen(Screen):
         # REFRESH BINDINGS
         self.refresh_bindings()
 
+    # METHOD: MOVE SELECTED TASK LEFT
+    async def action_move_left_selected_task(self):
+        await self.tasks_service.move_task(self.selected_board, self.selected_lane, self.selected_task,
+                                           self.lanes_service,"left")
+
+        # REFRESH BINDINGS AND SCREEN
+        self.refresh_bindings()
+        await self.app.screen.reload_screen()
+
+    # METHOD: MOVE SELECTED TASK RIGHT
+    async def action_move_right_selected_task(self):
+        await self.tasks_service.move_task(self.selected_board, self.selected_lane, self.selected_task,
+                                           self.lanes_service, "right")
+
+        # REFRESH BINDINGS AND SCREEN
+        self.refresh_bindings()
+        await self.app.screen.reload_screen()
+
     # METHOD CHECK ACTION
     def check_action(self, action: str, parameters: tuple[object, ...]) -> bool | None:
         if self.current_context == "board":
@@ -241,5 +261,5 @@ class BoardsScreen(Screen):
         if self.current_context == "lane":
             return action in ("create_lane", "delete_selected_lane", "edit_selected_lane", "move_left_selected_lane", "move_right_selected_lane", "delete_selected_lane", "create_task")
         if self.current_context == "task":
-            return action in ("delete_selected_task","edit_selected_task","create_task")
+            return action in ("delete_selected_task","edit_selected_task","create_task","move_left_selected_task", "move_right_selected_task")
         return False
