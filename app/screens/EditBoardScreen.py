@@ -1,14 +1,14 @@
 import os
 from textual.screen import Screen
-from textual.widgets import Label, Button
+from textual.widgets import Label, Button, Input
 from textual.containers import Grid
 from app.api.ApiClient import ApiClient
 from app.api.BoardsApi import BoardsApi
 from app.models.Board import Board
 
 
-# SCREEN CLASS FOR DELETE A BOARD
-class DeleteBoardScreen(Screen):
+# SCREEN CLASS FOR EDIT A BOARD
+class EditBoardScreen(Screen):
 
     def __init__(self, board: Board=None):
         super().__init__()
@@ -26,10 +26,10 @@ class DeleteBoardScreen(Screen):
     # COMPOSE ALL ELEMENTS
     def compose(self):
         yield Grid(
-    Label("Delete Board", id="title"),
-             Label(f"Do you want to delete the board {self.board.name}?", id="question"),
+    Label("Edit Board", id="title"),
+            Input(value=self.board.name, type="text", id="input_board_name"),
             Button("Cancel", variant="primary", id="cancel"),
-             Button("OK",variant="primary" ,id="ok"), id="dialog"
+            Button("OK",variant="primary" ,id="ok"), id="dialog"
         )
 
     # METHOD: BUTTON PRESSED EVENT
@@ -37,11 +37,20 @@ class DeleteBoardScreen(Screen):
 
         # IF OK BUTTON
         if event.button.id == "ok":
-            await self.boards_api.delete_board_by_id(self.board.id)
+
+            # GET VALUE FROM INPUT
+            self.board.name = self.query_one("#input_board_name", Input).value
+
+            # PATCH DATA
+            await self.boards_api.edit_board_by_id(self.board)
+
+            # CLOSE SCREEN AND REFRESH
             self.app.pop_screen()
             await self.app.screen.reload_screen()
 
         # IF CANCEL BUTTON
         if event.button.id == "cancel":
+
+            # CLOSE SCREEN AND REFRESH
             self.app.pop_screen()
             await self.app.screen.reload_screen()

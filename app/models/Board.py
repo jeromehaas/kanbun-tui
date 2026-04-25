@@ -1,10 +1,11 @@
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from app.models.Lane import Lane
 
 
 # BOARD DATA CLASS
 @dataclass
 class Board:
-    id: int
     name: str
-    lanes: list[Lane]
+    id: int | None = None
+    lanes: list[Lane] = field(default_factory=list)
+

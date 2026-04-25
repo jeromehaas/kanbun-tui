@@ -3,6 +3,7 @@ from textual.screen import Screen
 from textual.widgets import Label, Button
 from textual.containers import Grid
 from app.api import LanesApi, ApiClient
+from app.api.ApiClient import ApiError
 from app.models import Board, Lane
 from app.services import LanesService
 

@@ -1,5 +1,4 @@
 BoardTileWidget {
-    width: 100%;
     height: 3;
     border: tall white;
     background: $primary 100%;

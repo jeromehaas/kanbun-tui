@@ -4,9 +4,19 @@ BoardsContainerWidget {
     outline: solid white;
     margin: 1;
     background: $surface 100%;
+    align-horizontal: center;
 }
 
 BoardsContainerWidget > Label {
     margin-left: 1;
     margin-bottom: 1;
+}
+
+BoardsContainerWidget > ListView {
+    width: 95%;
+    height: 95%;
+}
+
+BoardsContainerWidget > ListView > ListItem {
+
 }

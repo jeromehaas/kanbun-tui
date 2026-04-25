@@ -26,7 +26,7 @@ class LanesApi:
     # FUNCTION: DELETE LANE
     async def delete_lane(self, board: Board, lane: Lane):
         return await self.api_client.delete(
-            f'/boards/{board.id}/lanes/{lane.id + 111}'
+            f'/boards/{board.id}/lanes/{lane.id}'
         )
 
     # FUNCTION: EDIT LANE

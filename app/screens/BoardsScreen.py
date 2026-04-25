@@ -7,7 +7,7 @@ from textual.screen import Screen
 from textual.widgets import Header, Footer, Label, Log
 from textual.binding import Binding
 from app.api import ApiClient, BoardsApi, LanesApi, TasksApi
-from app.screens import (CreateLaneScreen, DeleteBoardScreen, DeleteLaneScreen, EditLaneScreen, MoveLeftLaneScreen, MoveRightLaneScreen)
+from app.screens import (CreateLaneScreen, DeleteBoardScreen, DeleteLaneScreen, EditLaneScreen, MoveLeftLaneScreen, MoveRightLaneScreen,CreateBoardScreen,DeleteBoardScreen,EditBoardScreen)
 from app.services import BoardsService, LanesService, TasksService
 from app.widgets import BoardsContainerWidget, LaneWidget, LanesContainerWidget
 from app.models import Board
@@ -24,14 +24,17 @@ class BoardsScreen(Screen):
     # KEY BINDINGS
     BINDINGS = [
         Binding("d", "delete_selected_board", "Delete Board"),
-        Binding("r", "rename_selected_board", "Rename Board"),
         Binding("c", "create_lane", "Create Lane"),
         Binding("d", "delete_selected_lane", "Delete Lane"),
         Binding("left", "move_left_selected_lane", "Move Lane Left", priority=True),
         Binding("right", "move_right_selected_lane", "Move Lane Right", priority=True),
         Binding("e", "edit_selected_lane", "Edit Lane"),
+        Binding("e", "edit_selected_board", "Edit Board"),
+        Binding("c", "create_board", "Create Board"),
+        Binding("d", "delete_selected_task", "Delete Task"),
+    ]
 
-    ]    # METHOD: INIT
+    # METHOD: INIT
     def __init__(self):
 
         # EXTEND SUPER CLASS
@@ -45,9 +48,6 @@ class BoardsScreen(Screen):
             base_url=os.getenv("API_BASE_URL"),
             token=os.getenv("API_TOKEN"),
         )
-
-        # SETUP API
-        self.lanes_api = LanesApi(api_client)
 
         # CREATE SERVICES
         self.tasks_service = TasksService(TasksApi(api_client))
@@ -120,6 +120,7 @@ class BoardsScreen(Screen):
         # REFRESH BINDINGS
         self.refresh_bindings()
 
+
     # METHOD: FETCH AND UPDATE BOARDS
     async def fetch_and_update_boards(self):
 
@@ -146,12 +147,27 @@ class BoardsScreen(Screen):
         lanes_widget = self.query_one(LanesContainerWidget)
         lanes_widget.lanes = lanes
 
+    # METHOD: CREATE A NEW BOARD
+    def action_create_board(self):
+        self.app.push_screen(CreateBoardScreen())
+        self.refresh_bindings()
+
     # METHOD: DELETE THE SELECTED BOARD
     def action_delete_selected_board(self):
 
         # DISPLAY DELETE SCREEN
         self.app.push_screen(DeleteBoardScreen(self.selected_board))
         self.refresh_bindings()
+
+    # METHOD: EDID SELECTED BOARD
+    def action_edit_selected_board(self):
+        self.app.push_screen(EditBoardScreen(self.selected_board))
+
+    # METHOD: DELETE THE SELECTED TASK
+    def action_delete_selected_task(self):
+
+        # DISPLAY DELETE TASK
+        self.notify(str('ACTION: DELETE SELECTED TASKS'))
 
     # METHOD: DELETE THE SELECTED BOARD
     def action_rename_selected_board(self):
@@ -206,7 +222,7 @@ class BoardsScreen(Screen):
 
     def check_action(self, action: str, parameters: tuple[object, ...]) -> bool | None:
         if self.current_context == "board":
-            return action in ("delete_selected_board", "rename_selected_board")
+            return action in ("delete_selected_board", "rename_selected_board", "create_board", "edit_selected_board")
         if self.current_context == "lane":
             return action in ("create_lane", "delete_selected_lane", "edit_selected_lane", "move_left_selected_lane", "move_right_selected_lane", "delete_selected_lane")
         if self.current_context == "task":
