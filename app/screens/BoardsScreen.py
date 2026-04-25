@@ -249,6 +249,8 @@ class BoardsScreen(Screen):
 
     # METHOD: CREATE TASK
     def action_create_task(self):
+
+        # SHOW MODAL
         self.app.push_screen(CreateTaskScreen(self.selected_board, self.selected_lane))
 
         # REFRESH BINDINGS
@@ -256,6 +258,8 @@ class BoardsScreen(Screen):
 
     # METHOD: EDIT SELECTED TASK
     def action_edit_selected_task(self):
+
+        # SHOW MODAL
         self.app.push_screen(EditTaskScreen(self.selected_board, self.selected_lane, self.selected_task))
 
         # REFRESH BINDINGS
@@ -263,6 +267,8 @@ class BoardsScreen(Screen):
 
     # METHOD: DELETE SELECTED TASK
     def action_delete_selected_task(self):
+
+        # SHOW MODAL
         self.app.push_screen(DeleteTaskScreen(self.selected_board, self.selected_lane, self.selected_task))
 
         # REFRESH BINDINGS
