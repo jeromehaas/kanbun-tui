@@ -1,5 +1,7 @@
 from app.api.TasksApi import TasksApi
+from app.models.Board import Board
 from app.models.Task import Task
+from app.models.Lane import Lane
 
 # CLASS: TASKS SERVICE
 class TasksService:
@@ -22,3 +24,15 @@ class TasksService:
             id=item["id"],
             title=item["title"])
             for item in data]
+
+    async def create_task(self, board:Board, lane:Lane, data:Task) -> Task:
+
+        # CREATE TASK
+        data = await self.tasks_api.create_task(board=board, lane=lane, task=data)
+
+        # RETURN CREATED TASK
+        return Task(
+            id=data["id"],
+            title=data["title"],
+            description=data["description"],
+        )

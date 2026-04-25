@@ -1,10 +1,13 @@
 import os
+
+from textual.app import App
 from textual.screen import Screen
 from textual.widgets import Label, Button, Input, TextArea
 from textual.containers import Grid
 from app.api.ApiClient import ApiClient
 from app.api.TasksApi import TasksApi
 from app.models.Task import Task
+from app.services import TasksService
 
 
 # SCREEN CLASS FOR CREATE A TASK
@@ -12,7 +15,8 @@ class CreateTaskScreen(Screen):
 
     def __init__(self, selected_board, selected_lane):
         super().__init__()
-
+        self.board = selected_board
+        self.lane = selected_lane
 
         # CREATE CLIENT
         api_client = ApiClient(
@@ -22,6 +26,7 @@ class CreateTaskScreen(Screen):
 
         # CREATE SERVICES
         self.tasks_api = TasksApi(api_client)
+        self.tasks_service = TasksService(self.tasks_api)
 
     # COMPOSE ALL ELEMENTS
     def compose(self):
@@ -41,7 +46,7 @@ class CreateTaskScreen(Screen):
 
             # GET VALUE FROM INPUTS
             task_title = self.query_one("#input_task_title", Input).value
-            task_description = self.query_one("#input_task_description", Input).value
+            task_description = self.query_one("#input_task_description", TextArea).text
 
             # WRITE DATA
             data = Task(
@@ -50,7 +55,7 @@ class CreateTaskScreen(Screen):
             )
 
             # POST DATA
-            await self.tasks_api.create_task(data)
+            await self.tasks_service.create_task(self.board, self.lane, data)
 
             # CLOSE SCREEN AND REFRESH
             self.app.pop_screen()
