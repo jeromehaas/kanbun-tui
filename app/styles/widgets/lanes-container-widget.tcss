@@ -5,9 +5,19 @@ LanesContainerWidget {
     outline: solid white;
     margin: 1;
     layout: horizontal;
+    align-horizontal: center;
 }
 
 LanesContainerWidget > Label {
     margin-left: 1;
     margin-bottom: 1;
+}
+
+LanesContainerWidget > ListView {
+    width: 95%;
+    height: 95%;
+}
+
+LanesContainerWidget > ListView > ListItem {
+
 }
