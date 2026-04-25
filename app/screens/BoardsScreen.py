@@ -32,6 +32,8 @@ class BoardsScreen(Screen):
         Binding("e", "edit_selected_board", "Edit Board"),
         Binding("c", "create_board", "Create Board"),
         Binding("d", "delete_selected_task", "Delete Task"),
+        Binding("c", "create_task", "Create Task"),
+        Binding("e", "edit_selected_task", "Edit Task"),
     ]
 
     # METHOD: INIT
@@ -163,18 +165,6 @@ class BoardsScreen(Screen):
     def action_edit_selected_board(self):
         self.app.push_screen(EditBoardScreen(self.selected_board))
 
-    # METHOD: DELETE THE SELECTED TASK
-    def action_delete_selected_task(self):
-
-        # DISPLAY DELETE TASK
-        self.notify(str('ACTION: DELETE SELECTED TASKS'))
-
-    # METHOD: DELETE THE SELECTED BOARD
-    def action_rename_selected_board(self):
-
-        # RENAME SCREEN
-        self.notify(str('ACTION: RENAME SELECTED BOARD'))
-
     # METHOD: CREATE LANE
     def action_create_lane(self):
 
@@ -184,7 +174,7 @@ class BoardsScreen(Screen):
         # REFRESH BINDINGS
         self.refresh_bindings()
 
-    # METHOD: CREATE LANE
+    # METHOD: EDIT SELECTED LANE
     def action_edit_selected_lane(self):
 
         # SHOW MODAL
@@ -193,7 +183,7 @@ class BoardsScreen(Screen):
         # REFRESH BINDINGS
         self.refresh_bindings()
 
-    # METHOD: CREATE LANE
+    # METHOD: MOVE SELECTED LANE LEFT
     def action_move_left_selected_lane(self):
 
         # SHOW MODAL
@@ -202,7 +192,7 @@ class BoardsScreen(Screen):
         # REFRESH BINDINGS
         self.refresh_bindings()
 
-    # METHOD: CREATE LANE
+    # METHOD: MOVE SELECTED LANE RIGHT
     def action_move_right_selected_lane(self):
 
         # SHOW MODAL
@@ -211,7 +201,7 @@ class BoardsScreen(Screen):
         # REFRESH BINDINGS
         self.refresh_bindings()
 
-    # METHOD: CREATE LANE
+    # METHOD: DELETE SELECTED LANE
     def action_delete_selected_lane(self):
 
         # SHOW MODAL
@@ -220,11 +210,24 @@ class BoardsScreen(Screen):
         # REFRESH BINDINGS
         self.refresh_bindings()
 
+    # METHOD: CREATE TASK
+    def action_create_task(self):
+        return
+
+    # METHOD: EDIT SELECTED TASK
+    def action_edit_selected_task(self):
+        return
+
+    # METHOD: DELETE SELECTED TASK
+    def action_delete_selected_task(self):
+        return
+
+    # METHOD CHECK ACTION
     def check_action(self, action: str, parameters: tuple[object, ...]) -> bool | None:
         if self.current_context == "board":
             return action in ("delete_selected_board", "rename_selected_board", "create_board", "edit_selected_board")
         if self.current_context == "lane":
             return action in ("create_lane", "delete_selected_lane", "edit_selected_lane", "move_left_selected_lane", "move_right_selected_lane", "delete_selected_lane")
         if self.current_context == "task":
-            return action in ("delete_selected_task",)
+            return action in ("delete_selected_task","edit_selected_task","create_task")
         return False
