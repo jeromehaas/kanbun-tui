@@ -8,7 +8,8 @@ from app.screens.EditBoardScreen import EditBoardScreen
 # CLASS: MAIN CLASS FOR KANBUN APPLICATION
 class Kanbun(App):
     # PATHS TO CSS FILES
-    CSS_PATH = ["./styles/screens/boards-screen.tcss",
+    CSS_PATH = ["./styles/global.tcss",
+                "./styles/screens/boards-screen.tcss",
                 "./styles/widgets/boards-container-widget.tcss",
                 "./styles/widgets/lanes-container-widget.tcss",
                 "./styles/widgets/board-tile-widget.tcss",

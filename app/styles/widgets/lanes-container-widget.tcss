@@ -1,11 +1,10 @@
 LanesContainerWidget {
-    width: 3fr;
+    width: 4fr;
     height: 100%;
     background: $surface;
     outline: solid white;
     margin: 1;
     layout: horizontal;
-    align-horizontal: center;
 }
 
 LanesContainerWidget > Label {
@@ -19,5 +18,6 @@ LanesContainerWidget > ListView {
 }
 
 LanesContainerWidget > ListView > ListItem {
+
 
 }

@@ -17,6 +17,6 @@ BoardsContainerWidget > ListView {
     height: 95%;
 }
 
-BoardsContainerWidget > ListView > ListItem {
-
+BoardsContainerWidget > ListView > ListItem:hover{
+    background: $accent;
 }

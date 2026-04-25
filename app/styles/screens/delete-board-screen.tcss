@@ -30,3 +30,7 @@ DeleteBoardScreen Button {
     width: 100%;
 
 }
+
+DeleteBoardScreen #cancel {
+    background: $warning;
+}

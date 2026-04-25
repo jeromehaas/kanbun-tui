@@ -47,7 +47,7 @@ class LaneWidget(Container):
             return
 
         # PRINT LABEL FOR LANE
-        yield Label(self.lane.name)
+        yield Label(self.lane.name, id="label_title")
 
 
         with ListView(initial_index=None):

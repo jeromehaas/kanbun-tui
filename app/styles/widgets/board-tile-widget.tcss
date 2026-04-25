@@ -7,4 +7,5 @@ BoardTileWidget {
 
 BoardTileWidget > Label {
     margin-left: 1;
+    width: auto;
  }
