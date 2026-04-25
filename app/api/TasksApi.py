@@ -18,5 +18,8 @@ class TasksApi:
                                                 "description": task.description,
                                               })
 
-    async def edit_task(self,board:Board, lane:Lane):
-        return
+    async def edit_task(self,board:Board, lane:Lane, task:Task):
+        return await self.api_client.patch(f'/boards/{board.id}/lanes/{lane.id}/tasks/{task.id}',
+                                          {"title": task.title,
+                                           "description": task.description,
+                                           })

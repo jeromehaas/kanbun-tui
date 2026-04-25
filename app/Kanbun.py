@@ -23,6 +23,7 @@ class Kanbun(App):
                 "./styles/screens/move-right-lane-screen.tcss",
                 "./styles/screens/edit-lane-screen.tcss",
                 "./styles/screens/create-task-screen.tcss",
+                "./styles/screens/edit-task-screen.tcss",
                 ]
 
     # HOOK: ON MOUNT

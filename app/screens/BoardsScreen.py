@@ -9,6 +9,7 @@ from textual.binding import Binding
 from app.api import ApiClient, BoardsApi, LanesApi, TasksApi
 from app.screens import (CreateLaneScreen, DeleteBoardScreen, DeleteLaneScreen, EditLaneScreen, MoveLeftLaneScreen,
                          MoveRightLaneScreen, CreateBoardScreen, DeleteBoardScreen, EditBoardScreen, CreateTaskScreen)
+from app.screens.EditTaskScreen import EditTaskScreen
 from app.services import BoardsService, LanesService, TasksService
 from app.widgets import BoardsContainerWidget, LaneWidget, LanesContainerWidget
 from app.models import Board
@@ -33,7 +34,7 @@ class BoardsScreen(Screen):
         Binding("e", "edit_selected_board", "Edit Board"),
         Binding("c", "create_board", "Create Board"),
         Binding("d", "delete_selected_task", "Delete Task"),
-        Binding("c", "create_task", "Create Task"),
+        Binding("n", "create_task", "Create Task"),
         Binding("e", "edit_selected_task", "Edit Task"),
     ]
 
@@ -214,11 +215,16 @@ class BoardsScreen(Screen):
     # METHOD: CREATE TASK
     def action_create_task(self):
         self.app.push_screen(CreateTaskScreen(self.selected_board, self.selected_lane))
-        return
+
+        # REFRESH BINDINGS
+        self.refresh_bindings()
 
     # METHOD: EDIT SELECTED TASK
     def action_edit_selected_task(self):
-        return
+        self.app.push_screen(EditTaskScreen(self.selected_board, self.selected_lane, self.selected_task))
+
+        # REFRESH BINDINGS
+        self.refresh_bindings()
 
     # METHOD: DELETE SELECTED TASK
     def action_delete_selected_task(self):
@@ -229,7 +235,7 @@ class BoardsScreen(Screen):
         if self.current_context == "board":
             return action in ("delete_selected_board", "rename_selected_board", "create_board", "edit_selected_board")
         if self.current_context == "lane":
-            return action in ("create_lane", "delete_selected_lane", "edit_selected_lane", "move_left_selected_lane", "move_right_selected_lane", "delete_selected_lane")
+            return action in ("create_lane", "delete_selected_lane", "edit_selected_lane", "move_left_selected_lane", "move_right_selected_lane", "delete_selected_lane", "create_task")
         if self.current_context == "task":
             return action in ("delete_selected_task","edit_selected_task","create_task")
         return False

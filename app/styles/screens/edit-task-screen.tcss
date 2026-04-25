@@ -1,0 +1,36 @@
+EditTaskScreen {
+    align: center middle;
+    background: $background 60%;
+}
+
+EditTaskScreen #dialog {
+    grid-size: 2;
+    grid-gutter: 1 2;
+    grid-rows:1fr 3 1fr;
+    padding: 0 1;
+    width: 60;
+    height: 26;
+    border: thick $background 80%;
+    background: $surface;
+}
+
+EditTaskScreen #input_task_title {
+    column-span: 2;
+    height: 3;
+    width: 1fr;
+}
+
+EditTaskScreen #input_task_description {
+    column-span: 2;
+    height: 12;
+    width: 1fr;
+}
+
+EditTaskScreen #title {
+    text-style: bold;
+    column-span: 2;
+}
+
+EditTaskScreen Button {
+    width: 100%;
+}

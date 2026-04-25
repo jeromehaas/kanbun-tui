@@ -36,3 +36,14 @@ class TasksService:
             title=data["title"],
             description=data["description"],
         )
+
+    async def edit_task(self, board: Board, lane: Lane, task: Task) -> Task:
+        # EDIT TASK
+        data = await self.tasks_api.edit_task(board=board, lane=lane, task=task)
+
+        # RETURN CREATED TASK
+        return Task(
+            id=data["id"],
+            title=data["title"],
+            description=data["description"],
+        )
