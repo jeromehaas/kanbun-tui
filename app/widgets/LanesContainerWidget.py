@@ -21,16 +21,6 @@ class LanesContainerWidget(HorizontalScroll):
         # PRINT LABEL
         yield Label("Lanes")
 
-        # IF NO LANES ARE AVAILABLE, PRINT 5 PLACEHOLDER LANES
-        if not self.lanes:
-            for i in range(1):
-                lane_widget = LaneWidget()
-                lane_widget.lane = SimpleNamespace(
-                    name=f" ",
-                    tasks=[],
-                )
-                yield lane_widget
-            return
 
         # LOOP OVER LANES
         for lane in self.lanes:
