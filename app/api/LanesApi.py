@@ -3,19 +3,27 @@ from app.api.ApiClient import ApiClient
 from app.models.Lane import Lane
 from app.models.Board import Board
 
-# CLASS FOR LANES-API
+# CLASS: LANES API
 class LanesApi:
+
+    # METHOD: INIT
     def __init__(self, api_client: ApiClient):
+
+        # SETUP API CLIENT
         self.api_client = api_client
 
     # FUNCTION: GET ALL LANES
     async def get_all_lanes(self, board: Board):
+
+        # SEND REQUEST
         return await self.api_client.get(
             f'/boards/{board.id}/lanes'
         )
 
     # FUNCTION: GET ALL LANES
     async def create_lane(self, board: Board, data: Lane):
+
+        # SEND REQUEST
         return await self.api_client.post(
             f'/boards/{board.id}/lanes',
             {
@@ -25,12 +33,16 @@ class LanesApi:
 
     # FUNCTION: DELETE LANE
     async def delete_lane(self, board: Board, lane: Lane):
+
+        # SEND REQUEST
         return await self.api_client.delete(
             f'/boards/{board.id}/lanes/{lane.id}'
         )
 
     # FUNCTION: EDIT LANE
     async def edit_lane(self, board: Board, lane: Lane, data: Lane):
+
+        # SEND REQUEST
         return await self.api_client.patch(
             f'/boards/{board.id}/lanes/{lane.id}',
             {

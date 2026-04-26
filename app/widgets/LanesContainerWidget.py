@@ -1,11 +1,9 @@
-from types import SimpleNamespace
-
+# IMPORTS
 from textual.app import ComposeResult
 from textual.widgets import Label
 from textual.containers import HorizontalScroll
 from textual.reactive import reactive
 from app.widgets.LaneWidget import LaneWidget
-
 
 # CLASS: LANES CONTAINER WIDGET
 class LanesContainerWidget(HorizontalScroll):
@@ -20,7 +18,6 @@ class LanesContainerWidget(HorizontalScroll):
 
         # PRINT LABEL
         yield Label("Lanes")
-
 
         # LOOP OVER LANES
         for lane in self.lanes:

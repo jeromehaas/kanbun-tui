@@ -1,3 +1,4 @@
+# IMPORTS
 from textual.app import ComposeResult
 from textual.message import Message
 from textual.events import Click, Focus, DescendantFocus
@@ -17,6 +18,7 @@ class LaneWidget(Container):
     lane = reactive(None)
     selected_task_id = reactive(None)
 
+    # CLASS: LANE SELECTED
     class LaneSelected(Message):
 
         # METHOD: INIT
@@ -28,6 +30,7 @@ class LaneWidget(Container):
             # SETUP FIELDS
             self.lane = lane
 
+    # CLASS: TASKS SELECTED
     class TaskSelected(Message):
 
         # METHOD: INIT
@@ -50,42 +53,47 @@ class LaneWidget(Container):
         # PRINT LABEL FOR LANE
         yield Label(self.lane.name, id="label_title")
 
+        # GET SELECTED INDEX
         selected_index = next(
             (index for index, task in enumerate(self.lane.tasks) if task.id == self.selected_task_id),
             None,
         )
 
+        # WRAP LIST VIEW
         with ListView(initial_index=selected_index):
+
             # LOOP OVER TASKS
             for task in self.lane.tasks:
                 yield ListItem(TaskWidget(task))
 
-
-
-
+    # METHOD: POST LANE
     def post_lane_selected(self) -> None:
 
         # POST SELECTED LANE IF AVAILABLE
         if self.lane is not None:
             self.post_message(self.LaneSelected(self.lane))
 
-
+    # LISTENER: ON CLICK
     def on_click(self, event: Click) -> None:
 
         # DISPATCH SELECTED LANE ON CLICK
         self.post_lane_selected()
 
 
+    # LISTENER: ON FOCUS
     def on_focus(self, event: Focus) -> None:
 
         # DISPATCH SELECTED LANE WHEN WIDGET IS FOCUSED
         self.post_lane_selected()
 
+
+    # LISTENER: ON DESCENDANT FOCUS
     def on_descendant_focus(self, event: DescendantFocus) -> None:
 
         # DISPATCH SELECTED LANE WHEN A CHILD WIDGET RECEIVES FOCUS
         self.post_lane_selected()
 
+    # LISTENER: ON LIST VIEW SELECTED
     def on_list_view_selected(self, event: ListView.Selected) -> None:
 
         # GET SELECTED ITEM
@@ -98,8 +106,10 @@ class LaneWidget(Container):
         # DISPATCH SELECTED TASK
         self.post_message(self.TaskSelected(task))
 
+    # LISTENER: ON LIST VIEW HIGHLIGHTED
     def on_list_view_highlighted(self, event: ListView.Highlighted) -> None:
 
+        # CHECK FOR EVENTS
         if event.item is None:
             return
 

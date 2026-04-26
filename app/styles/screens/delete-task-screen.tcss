@@ -28,5 +28,4 @@ DeleteTaskScreen #title {
 
 DeleteTaskScreen Button {
     width: 100%;
-
 }

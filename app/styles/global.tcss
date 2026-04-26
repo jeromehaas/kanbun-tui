@@ -1,9 +1,6 @@
-/*GLOBAL STYLES*/
-
 Label {
     color: $text;
 }
-
 
 Button#ok {
     background: $primary-lighten-2;

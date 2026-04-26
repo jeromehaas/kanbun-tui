@@ -1,6 +1,6 @@
+# IMPORTS
 from dataclasses import dataclass, field
 from app.models.Lane import Lane
-
 
 # BOARD DATA CLASS
 @dataclass

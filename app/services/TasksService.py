@@ -1,9 +1,9 @@
+# IMOPTS
 from app.api.TasksApi import TasksApi
 from app.models.Board import Board
 from app.models.Task import Task
 from app.models.Lane import Lane
 from app.services import LanesService
-
 
 # CLASS: TASKS SERVICE
 class TasksService:
@@ -20,14 +20,15 @@ class TasksService:
         # GET ALL TASKS
         data = await self.tasks_api.get_tasks()
 
-        # RETURN TAKS
+        # RETURN TASKS
         return [Task(
             board_id=item["board_id"],
             id=item["id"],
             title=item["title"])
             for item in data]
 
-    async def create_task(self, board:Board, lane:Lane, data:Task) -> Task:
+    # METHOD: CREATE TASK
+    async def create_task(self, board: Board, lane: Lane, data: Task) -> Task:
 
         # CREATE TASK
         data = await self.tasks_api.create_task(board=board, lane=lane, task=data)
@@ -39,7 +40,10 @@ class TasksService:
             description=data["description"],
         )
 
+
+    # METHOD: EDIT TASK
     async def edit_task(self, board: Board, lane: Lane, task: Task) -> Task:
+
         # EDIT TASK
         data = await self.tasks_api.edit_task(board=board, lane=lane, task=task)
 
@@ -49,7 +53,10 @@ class TasksService:
             title=data["title"],
             description=data["description"],
         )
+
+    # METHOD: DELETE TASK
     async def delete_task(self, board: Board, lane: Lane, task: Task) -> Task:
+
         # EDIT TASK
         data = await self.tasks_api.delete_task(board=board, lane=lane, task=task)
 
@@ -60,7 +67,10 @@ class TasksService:
             description=data["description"],
         )
 
-    async def move_task(self, board: Board, lane: Lane, task: Task, lanes_service: LanesService , direction: str):
+    # METHOD: MOVE TASK
+    async def move_task(self, board: Board, lane: Lane, task: Task, lanes_service: LanesService, direction: str):
+
+        # GET CURRENT AND TARGET LANE
         current_lane = lane
         target_lane_position = lane.position
         target_lane: Lane = lane

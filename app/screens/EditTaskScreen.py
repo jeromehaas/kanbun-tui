@@ -1,5 +1,5 @@
+# IMPORTS
 import os
-from textual.app import App
 from textual.screen import Screen
 from textual.widgets import Label, Button, Input, TextArea
 from textual.containers import Grid
@@ -10,8 +10,14 @@ from app.services import TasksService
 
 # CLASS: EDIT TASK SCREEN
 class EditTaskScreen (Screen):
+
+    # METHOD: INIT
     def __init__(self, selected_board, selected_lane, selected_task):
+
+        # GET PARENT
         super().__init__()
+
+        # GET BOARD, LANES, TASK
         self.board = selected_board
         self.lane = selected_lane
         self.edit_task = selected_task
@@ -28,6 +34,8 @@ class EditTaskScreen (Screen):
 
     # COMPOSE ALL ELEMENTS
     def compose(self):
+
+        # DEFINE CONTENT
         yield Grid(
             Label("Edit Task", id="title"),
             Input(placeholder="Task Title", type="text", id="input_task_title", value=self.edit_task.title),
@@ -41,11 +49,12 @@ class EditTaskScreen (Screen):
 
         # IF OK BUTTON
         if event.button.id == "ok":
+
             # GET VALUE FROM INPUTS
             task_title = self.query_one("#input_task_title", Input).value
             task_description = self.query_one("#input_task_description", TextArea).text
 
-            # WRITE DATA
+            # CREATE TASK
             data = Task(
                 id=self.edit_task.id,
                 title=task_title,
@@ -61,6 +70,7 @@ class EditTaskScreen (Screen):
 
         # IF CANCEL BUTTON
         if event.button.id == "cancel":
+
             # CLOSE SCREEN AND REFRESH
             self.app.pop_screen()
             await self.app.screen.reload_screen()

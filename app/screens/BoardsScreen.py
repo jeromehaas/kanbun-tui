@@ -1,3 +1,4 @@
+# IMPORTS
 import os
 from dotenv import load_dotenv
 from textual.app import ComposeResult
@@ -7,8 +8,7 @@ from textual.screen import Screen
 from textual.widgets import Header, Footer, Label, Log
 from textual.binding import Binding
 from app.api import ApiClient, BoardsApi, LanesApi, TasksApi, ApiError
-from app.screens import (CreateLaneScreen, DeleteBoardScreen, DeleteLaneScreen, EditLaneScreen,
-                         CreateBoardScreen, DeleteBoardScreen, EditBoardScreen, CreateTaskScreen)
+from app.screens import (CreateLaneScreen, DeleteLaneScreen, EditLaneScreen, CreateBoardScreen, DeleteBoardScreen, EditBoardScreen, CreateTaskScreen)
 from app.screens.DeleteTaskScreen import DeleteTaskScreen
 from app.screens.EditTaskScreen import EditTaskScreen
 from app.services import BoardsService, LanesService, TasksService
@@ -26,17 +26,17 @@ class BoardsScreen(Screen):
 
     # KEY BINDINGS
     BINDINGS = [
+        Binding("c", "create_board", "Create Board"),
+        Binding("e", "edit_selected_board", "Edit Board"),
         Binding("d", "delete_selected_board", "Delete Board"),
         Binding("c", "create_lane", "Create Lane"),
+        Binding("e", "edit_selected_lane", "Edit Lane"),
         Binding("d", "delete_selected_lane", "Delete Lane"),
         Binding("shift+left", "move_left_selected_lane", "Move Lane Left", priority=True),
         Binding("shift+right", "move_right_selected_lane", "Move Lane Right", priority=True),
-        Binding("e", "edit_selected_lane", "Edit Lane"),
-        Binding("e", "edit_selected_board", "Edit Board"),
-        Binding("c", "create_board", "Create Board"),
-        Binding("d", "delete_selected_task", "Delete Task"),
         Binding("n", "create_task", "Create Task"),
         Binding("e", "edit_selected_task", "Edit Task"),
+        Binding("d", "delete_selected_task", "Delete Task"),
         Binding("ctrl+left", "move_left_selected_task", "Move Task Left"),
         Binding("ctrl+right", "move_right_selected_task", "Move Task Right"),
     ]
@@ -74,11 +74,14 @@ class BoardsScreen(Screen):
 
     # HOOK: ON MOUNT
     async def on_mount(self) -> None:
+
+        # RELOAD SCREEN
         await self.reload_screen()
 
     # METHOD: RELOAD ALL DATA IN SCREEN
     async def reload_screen(self) -> None:
 
+        # GET SELECTED ELEMENTS
         selected_board_id = self.selected_board.id if self.selected_board else None
         selected_lane_id = self.selected_lane.id if self.selected_lane else None
         selected_task_id = self.selected_task.id if self.selected_task else None
@@ -182,6 +185,7 @@ class BoardsScreen(Screen):
             self.selected_task = None
             return
 
+        # KEEP SELECTED TASK IF STILL AVAILABLE
         self.selected_task = next(
             (task for task in self.selected_lane.tasks if task.id == selected_task_id),
             None,
@@ -189,36 +193,37 @@ class BoardsScreen(Screen):
 
     # METHOD: CREATE A NEW BOARD
     def action_create_board(self):
+
+        # DISPLAY CREATE BOARD SCREEN
         self.app.push_screen(CreateBoardScreen())
         self.refresh_bindings()
 
     # METHOD: DELETE THE SELECTED BOARD
     def action_delete_selected_board(self):
 
-        # DISPLAY DELETE SCREEN
+        # DISPLAY DELETE BOARD SCREEN
         self.app.push_screen(DeleteBoardScreen(self.selected_board))
         self.refresh_bindings()
 
-    # METHOD: EDID SELECTED BOARD
+    # METHOD: EDIT SELECTED BOARD
     def action_edit_selected_board(self):
+
+        # DISPLAY EDIT BOARD SCREEN
         self.app.push_screen(EditBoardScreen(self.selected_board))
+        self.refresh_bindings()
 
     # METHOD: CREATE LANE
     def action_create_lane(self):
 
-        # NOTIFY
+        # DISPLAY CREATE LANE SCREEN
         self.app.push_screen(CreateLaneScreen(self.selected_board, self.selected_lane))
-
-        # REFRESH BINDINGS
         self.refresh_bindings()
 
     # METHOD: EDIT SELECTED LANE
     def action_edit_selected_lane(self):
 
-        # SHOW MODAL
+        # DISPLAY CREATE LANE SCREEN
         self.app.push_screen(EditLaneScreen(self.selected_board, self.selected_lane))
-
-        # REFRESH BINDINGS
         self.refresh_bindings()
 
     # METHOD: MOVE SELECTED LANE LEFT
@@ -240,10 +245,8 @@ class BoardsScreen(Screen):
             self.notify(error.message, severity="error")
             return
 
-        # UPDATE AND RELOAD SCREEN
+        # UPDATE AND RELOAD SCREEN AND REFRESH BINDINGS
         await self.app.screen.reload_screen()
-
-        # REFRESH BINDINGS
         self.refresh_bindings()
 
     # METHOD: MOVE SELECTED LANE RIGHT
@@ -265,72 +268,64 @@ class BoardsScreen(Screen):
             self.notify(error.message, severity="error")
             return
 
-        # UPDATE AND RELOAD SCREEN
+        # SHOW MODAL AND REFRESH BINDINGS
         await self.app.screen.reload_screen()
-
-        # REFRESH BINDINGS
         self.refresh_bindings()
 
     # METHOD: DELETE SELECTED LANE
     def action_delete_selected_lane(self):
 
-        # SHOW MODAL
+        # SHOW MODAL AND REFRESH BINDINGS
         self.app.push_screen(DeleteLaneScreen(self.selected_board, self.selected_lane))
-
-        # REFRESH BINDINGS
         self.refresh_bindings()
 
     # METHOD: CREATE TASK
     def action_create_task(self):
 
-        # SHOW MODAL
+        # SHOW MODAL AND REFRESH BINDINGS
         self.app.push_screen(CreateTaskScreen(self.selected_board, self.selected_lane))
-
-        # REFRESH BINDINGS
         self.refresh_bindings()
 
     # METHOD: EDIT SELECTED TASK
     def action_edit_selected_task(self):
 
-        # SHOW MODAL
+        # SHOW MODAL AND REFRESH BINDINGS
         self.app.push_screen(EditTaskScreen(self.selected_board, self.selected_lane, self.selected_task))
-
-        # REFRESH BINDINGS
         self.refresh_bindings()
 
     # METHOD: DELETE SELECTED TASK
     def action_delete_selected_task(self):
 
-        # SHOW MODAL
+        # SHOW MODAL AND REFRESH BINDINGS
         self.app.push_screen(DeleteTaskScreen(self.selected_board, self.selected_lane, self.selected_task))
-
-        # REFRESH BINDINGS
         self.refresh_bindings()
 
     # METHOD: MOVE SELECTED TASK LEFT
     async def action_move_left_selected_task(self):
-        await self.tasks_service.move_task(self.selected_board, self.selected_lane, self.selected_task,
-                                           self.lanes_service,"left")
 
-        # REFRESH BINDINGS AND SCREEN
+        # SHOW MODAL AND REFRESH BINDINGS
+        self.tasks_service.move_task(self.selected_board, self.selected_lane, self.selected_task, self.lanes_service,"left")
         self.refresh_bindings()
-        await self.app.screen.reload_screen()
 
     # METHOD: MOVE SELECTED TASK RIGHT
     async def action_move_right_selected_task(self):
-        await self.tasks_service.move_task(self.selected_board, self.selected_lane, self.selected_task,
-                                           self.lanes_service, "right")
 
-        # REFRESH BINDINGS AND SCREEN
+        # SHOW MODAL AND REFRESH BINDINGS
+        self.tasks_service.move_task(self.selected_board,  self.selected_lane, self.selected_task, self.lanes_service, "right")
         self.refresh_bindings()
-        await self.app.screen.reload_screen()
 
     # METHOD CHECK ACTION
     def check_action(self, action: str, parameters: tuple[object, ...]) -> bool | None:
+
+        # DEFINE BOARD BINDINGS
         if self.current_context == "board":
             return action in ("delete_selected_board", "rename_selected_board", "create_board", "edit_selected_board")
+
+        # DEFINE LANE BINDINGS
         if self.current_context == "lane":
             return action in ("create_lane", "delete_selected_lane", "edit_selected_lane", "move_left_selected_lane", "move_right_selected_lane", "delete_selected_lane", "create_task")
+
+        # DEFINE TASK BINDINGS
         if self.current_context == "task":
             return action in ("delete_selected_task","edit_selected_task","create_task","move_left_selected_task", "move_right_selected_task")
         return False

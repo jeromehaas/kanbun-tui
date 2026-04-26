@@ -1,3 +1,4 @@
+# IMOPRTS
 import os
 from textual.screen import Screen
 from textual.widgets import Label, Button, Input
@@ -6,12 +7,16 @@ from app.api.ApiClient import ApiClient
 from app.api.BoardsApi import BoardsApi
 from app.models.Board import Board
 
-
 # SCREEN CLASS FOR EDIT A BOARD
 class EditBoardScreen(Screen):
 
-    def __init__(self, board: Board=None):
+    # METHOD: INIT
+    def __init__(self, board: Board = None):
+
+        # GET PARENT
         super().__init__()
+
+        # GET BOARD
         self.board = board
 
         # CREATE CLIENT
@@ -25,11 +30,13 @@ class EditBoardScreen(Screen):
 
     # COMPOSE ALL ELEMENTS
     def compose(self):
+
+        # DEFINE CONTENT
         yield Grid(
-    Label("Edit Board", id="title"),
+            Label("Edit Board", id="title"),
             Input(value=self.board.name, type="text", id="input_board_name"),
             Button("Cancel", variant="primary", id="cancel"),
-            Button("OK",variant="primary" ,id="ok"), id="dialog"
+            Button("OK", variant="primary", id="ok"), id="dialog"
         )
 
     # METHOD: BUTTON PRESSED EVENT

@@ -31,6 +31,3 @@ DeleteBoardScreen Button {
 
 }
 
-DeleteBoardScreen #cancel {
-    background: $warning;
-}
