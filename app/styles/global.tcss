@@ -3,3 +3,12 @@
 Label {
     color: $text;
 }
+
+
+Button#ok {
+    background: $primary-lighten-2;
+}
+
+Button#cancel {
+    background: $primary-darken-2;
+}

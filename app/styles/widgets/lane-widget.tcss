@@ -1,8 +1,20 @@
 LaneWidget {
-    width: 35;
+    width: 40;
     height: 100%;
     outline: solid white;
-    background: $primary 100%;
+    border: tall white;
+    background: $secondary 100%;
     margin: 1;
 }
 
+LaneWidget > #label_title{
+    padding-left: 1;
+}
+
+LaneWidget > ListView {
+    background: $secondary;
+}
+
+LaneWidget > ListView > ListItem:hover {
+    background: $accent;
+}

@@ -6,6 +6,7 @@ from app.models.Task import Task
 
 # CLASS: TASK WIDGET
 class TaskWidget(Container):
+    MAXIMUM_NUMBER_OF_DIGITS = 25
 
     # DEFINE TASKS
     task = reactive(None)
@@ -19,8 +20,22 @@ class TaskWidget(Container):
 
         # SHOW MESSAGE IF NO TASKS ARE AVAILABLE
         if self.task is None:
-            yield Label("No Task")
+            yield Label("No Tasks")
             return
 
-        # DISPLAY LABEL
-        yield Label(self.task.title)
+        # SHORTEN TITLE IF TO LONG
+        if len(self.task.title) > self.MAXIMUM_NUMBER_OF_DIGITS:
+            title = str(self.task.title[:self.MAXIMUM_NUMBER_OF_DIGITS]) + "..."
+        else:
+            title = str(self.task.title)
+
+        # SHORTEN DESCRIPTION IF TO LONG
+        if len(self.task.description) > self.MAXIMUM_NUMBER_OF_DIGITS:
+            description = str(self.task.description[:self.MAXIMUM_NUMBER_OF_DIGITS]) + "..."
+        else:
+            description = str(self.task.description)
+
+        # DISPLAY WIDGET
+        with Container():
+            yield Label(f"⚬ {title}", id="title")
+            yield Label(f'  {description}', id="description")

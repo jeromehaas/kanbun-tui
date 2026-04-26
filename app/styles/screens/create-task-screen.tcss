@@ -1,0 +1,36 @@
+CreateTaskScreen {
+    align: center middle;
+    background: $background 60%;
+}
+
+CreateTaskScreen #dialog {
+    grid-size: 2;
+    grid-gutter: 1 2;
+    grid-rows: 1 3 6 3;
+    padding: 0 1;
+    width: 60;
+    height: 18;
+    border: thick $background 80%;
+    background: $surface;
+}
+
+CreateTaskScreen #input_task_title {
+    column-span: 2;
+    height: 3;
+    width: 1fr;
+}
+
+CreateTaskScreen #input_task_description {
+    column-span: 2;
+    height: 6;
+    width: 1fr;
+}
+
+CreateTaskScreen #title {
+    text-style: bold;
+    column-span: 2;
+}
+
+CreateTaskScreen Button {
+    width: 100%;
+}

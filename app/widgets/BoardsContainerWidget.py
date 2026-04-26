@@ -10,6 +10,7 @@ class BoardsContainerWidget(Container):
 
     # DEFINE BOARDS
     boards = reactive([], recompose=True, always_update=True)
+    selected_board_id = reactive(None, recompose=True)
 
     # CLASS: BOARDS SELECTED
     class BoardSelected(Message):
@@ -35,8 +36,13 @@ class BoardsContainerWidget(Container):
                 yield Label("Keine Boards gefunden")
                 return
 
+            selected_index = next(
+                (index for index, board in enumerate(self.boards) if board.id == self.selected_board_id),
+                0,
+            )
+
             # SETUP LIST VIEW
-            with ListView():
+            with ListView(initial_index=selected_index):
                 for board in self.boards:
                     yield ListItem(BoardTileWidget(board))
 
@@ -55,6 +61,9 @@ class BoardsContainerWidget(Container):
 
     # HOOK: ON LIST VIEW SELECTED
     def on_list_view_highlighted(self, event: ListView.Highlighted) -> None:
+
+        if event.item is None:
+            return
 
         # GET SELECTED ITEM
         selected_item = event.item

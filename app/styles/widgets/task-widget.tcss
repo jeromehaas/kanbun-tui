@@ -1,8 +1,24 @@
 TaskWidget {
     width: 100%;
-    height: 3;
+    height: auto;
     border: tall white;
     background: $secondary 100%;
     margin: 1;
 }
 
+TaskWidget > Container {
+    layout: vertical;
+    width: 100%;
+    height: auto;
+}
+
+TaskWidget > Container > #title {
+    text-style: bold;
+    padding-left: 1;
+}
+
+TaskWidget > Container > #description {
+    text-style: italic;
+    padding-left: 1;
+    padding-top: 1;
+}

@@ -1,5 +1,5 @@
 LanesContainerWidget {
-    width: 3fr;
+    width: 4fr;
     height: 100%;
     background: $surface;
     outline: solid white;
@@ -10,4 +10,14 @@ LanesContainerWidget {
 LanesContainerWidget > Label {
     margin-left: 1;
     margin-bottom: 1;
+}
+
+LanesContainerWidget > ListView {
+    width: 95%;
+    height: 95%;
+}
+
+LanesContainerWidget > ListView > ListItem {
+
+
 }

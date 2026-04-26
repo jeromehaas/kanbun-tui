@@ -8,8 +8,8 @@ from app.api.TasksApi import TasksApi
 from app.models.Task import Task
 from app.services import TasksService
 
-# CLASS: EDIT TASK SCREEN
-class EditTaskScreen (Screen):
+# CLASS: DELETE TASK SCREEN
+class DeleteTaskScreen (Screen):
     def __init__(self, selected_board, selected_lane, selected_task):
         super().__init__()
         self.board = selected_board
@@ -29,9 +29,8 @@ class EditTaskScreen (Screen):
     # COMPOSE ALL ELEMENTS
     def compose(self):
         yield Grid(
-            Label("Edit Task", id="title"),
-            Input(placeholder="Task Title", type="text", id="input_task_title", value=self.edit_task.title),
-            TextArea(placeholder="Task Description", id="input_task_description", text=self.edit_task.description),
+            Label("Delete Task", id="title"),
+            Label(f"Do you want to delete the task <{self.edit_task.title}>?", id="question"),
             Button("Cancel", variant="primary", id="cancel"),
             Button("OK", variant="primary", id="ok"), id="dialog"
         )
@@ -41,19 +40,8 @@ class EditTaskScreen (Screen):
 
         # IF OK BUTTON
         if event.button.id == "ok":
-            # GET VALUE FROM INPUTS
-            task_title = self.query_one("#input_task_title", Input).value
-            task_description = self.query_one("#input_task_description", TextArea).text
-
-            # WRITE DATA
-            data = Task(
-                id=self.edit_task.id,
-                title=task_title,
-                description=task_description,
-            )
-
-            # PATCH DATA
-            await self.tasks_service.edit_task(self.board, self.lane, data)
+            # DELETE DATA
+            await self.tasks_service.delete_task(self.board, self.lane, self.edit_task)
 
             # CLOSE SCREEN AND REFRESH
             self.app.pop_screen()

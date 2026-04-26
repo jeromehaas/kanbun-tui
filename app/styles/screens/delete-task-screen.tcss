@@ -1,9 +1,9 @@
-MoveLeftLaneScreen {
+DeleteTaskScreen {
     align: center middle;
-    background: black 60%;
+    background: $background 60%;
 }
 
-MoveLeftLaneScreen #dialog {
+DeleteTaskScreen #dialog {
     grid-size: 2;
     grid-gutter: 1 2;
     grid-rows: 1fr 2;
@@ -14,18 +14,19 @@ MoveLeftLaneScreen #dialog {
     background: $surface;
 }
 
-MoveLeftLaneScreen #question {
+ DeleteTaskScreen #question {
     column-span: 2;
     height: 1fr;
     width: 1fr;
     content-align: center middle;
 }
 
-MoveLeftLaneScreen #title {
+DeleteTaskScreen #title {
     text-style: bold;
     column-span: 2;
 }
 
-MoveLeftLaneScreen Button {
+DeleteTaskScreen Button {
     width: 100%;
+
 }

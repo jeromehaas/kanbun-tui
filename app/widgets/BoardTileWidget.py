@@ -4,6 +4,7 @@ from textual.containers import Container
 
 # CLASS: BOARD TILE WIDGET
 class BoardTileWidget(Container):
+    MAXIMUM_NUMBER_OF_DIGITS = 44
 
     # METHOD: INIT
     def __init__(self, board):
@@ -17,5 +18,12 @@ class BoardTileWidget(Container):
     # METHOD: COMPOSE
     def compose(self) -> ComposeResult:
 
-            # DISPLAY LABEL
-            yield Label(self.board.name)
+        # SHORTEN NAME IF TO LONG
+        if len(self.board.name) > self.MAXIMUM_NUMBER_OF_DIGITS:
+            name = str(self.board.name[:self.MAXIMUM_NUMBER_OF_DIGITS]) + "..."
+        else:
+            name = str(self.board.name)
+
+
+        # DISPLAY LABEL
+        yield Label(name)

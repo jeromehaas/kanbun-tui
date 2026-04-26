@@ -15,6 +15,7 @@ class LaneWidget(Container):
 
     # DEFINE LANE
     lane = reactive(None)
+    selected_task_id = reactive(None)
 
     class LaneSelected(Message):
 
@@ -47,10 +48,14 @@ class LaneWidget(Container):
             return
 
         # PRINT LABEL FOR LANE
-        yield Label(self.lane.name)
+        yield Label(self.lane.name, id="label_title")
 
+        selected_index = next(
+            (index for index, task in enumerate(self.lane.tasks) if task.id == self.selected_task_id),
+            None,
+        )
 
-        with ListView(initial_index=None):
+        with ListView(initial_index=selected_index):
             # LOOP OVER TASKS
             for task in self.lane.tasks:
                 yield ListItem(TaskWidget(task))
@@ -94,6 +99,9 @@ class LaneWidget(Container):
         self.post_message(self.TaskSelected(task))
 
     def on_list_view_highlighted(self, event: ListView.Highlighted) -> None:
+
+        if event.item is None:
+            return
 
         # GET SELECTED ITEM
         selected_item = event.item
