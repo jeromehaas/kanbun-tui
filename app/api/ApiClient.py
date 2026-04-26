@@ -8,8 +8,12 @@ logger = logging.getLogger(__name__)
 
 # CLASS: API ERROR
 class ApiError(Exception):
+
+    # METHOD: INIT
     def __init__(self, message: str, status_code: int | None = None):
         super().__init__(message)
+
+        # SET MESSAGE AND STATUS CODE
         self.message = message
         self.status_code = status_code
 
@@ -109,7 +113,6 @@ class ApiClient:
 
     # METHOD: HANDLE RESPONSE
     def handle_response(self, response: httpx.Response):
-        logger.error("status=%s body=%r", response.status_code, response.text)
 
         # CHECK FOR ERROR
         if response.is_error:

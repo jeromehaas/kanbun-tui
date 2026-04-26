@@ -1,3 +1,4 @@
+# IMPORTS
 import os
 from textual.screen import Screen
 from textual.widgets import Label, Button, Input
@@ -31,12 +32,14 @@ class CreateLaneScreen(Screen):
 
     # COMPOSE ALL ELEMENTS
     def compose(self):
+
+        # DEFINE CONTENT
         yield Grid(
-            Label("Create Lane", id="title"),
-            Input(placeholder="First Name", id="input_lane_name"),
+            Label("Create lane", id="title"),
+            Input(placeholder="Name", id="input_lane_name"),
             Button("Cancel", variant="primary", id="cancel"),
-            Button("OK",variant="primary" ,id="ok"), id="dialog"
-        )
+            Button("OK",variant="primary" ,id="ok"),
+        id="dialog")
 
     # METHOD: BUTTON PRESSED EVENT
     async def on_button_pressed(self, event: Button.Pressed):
@@ -47,7 +50,7 @@ class CreateLaneScreen(Screen):
             # GET LANE NAME
             lane_name = self.query_one("#input_lane_name", Input).value.strip()
 
-            # DEFINE DATA
+            # CREATE LANE
             data = Lane(
                 name=lane_name,
             )
@@ -65,13 +68,14 @@ class CreateLaneScreen(Screen):
                 self.notify(error.message, severity="error")
                 return
 
-            # UPDATE AND RELOAD SCREEN
+            # CLOSE SCREEN AND REFRESH
             self.app.pop_screen()
             await self.app.screen.reload_screen()
 
         # IF CANCEL BUTTON
         if event.button.id == "cancel":
 
-            # UPDATE AND RELOAD SCREEN
+            # CLOSE SCREEN AND REFRESH
             self.app.pop_screen()
             await self.app.screen.reload_screen()
+

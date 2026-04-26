@@ -32,7 +32,6 @@ Create a `.env` file in the project root:
 ```env
 # API CONNECTION TO SERVER
 API_BASE_URL=
-API_TOKEN=
 ```
 
 ## Run the application

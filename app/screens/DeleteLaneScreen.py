@@ -7,11 +7,12 @@ from app.api.ApiClient import ApiError
 from app.models import Board, Lane
 from app.services import LanesService
 
+
 # CLASS: DELETE LANE SCREEN
 class DeleteLaneScreen(Screen):
 
     # METHOD: INIT
-    def __init__(self, board: Board=None, lane: Lane=None):
+    def __init__(self, board: Board = None, lane: Lane = None):
 
         # GET PARENT
         super().__init__()
@@ -32,10 +33,11 @@ class DeleteLaneScreen(Screen):
     # COMPOSE ALL ELEMENTS
     def compose(self):
         yield Grid(
-            Label("Delete Lane", id="title"),
+            Label("Delete lane", id="title"),
             Label(f"Do you want to delete the lane '{self.lane.name}'?", id="question"),
             Button("Cancel", variant="primary", id="cancel"),
-            Button("OK",variant="primary" ,id="ok"), id="dialog"
+            Button("OK", variant="primary", id="ok"),
+        id="dialog"
         )
 
     # METHOD: BUTTON PRESSED EVENT
@@ -56,13 +58,13 @@ class DeleteLaneScreen(Screen):
                 # NOTIFY ABOUT ERROR
                 self.notify(error.message, severity="error")
 
-            # UPDATE AND RELOAD SCREEN
+            # CLOSE SCREEN AND REFRESH
             self.app.pop_screen()
             await self.app.screen.reload_screen()
 
         # IF CANCEL BUTTON
         if event.button.id == "cancel":
 
-            # UPDATE AND RELOAD SCREEN
+            # CLOSE SCREEN AND REFRESH
             self.app.pop_screen()
             await self.app.screen.reload_screen()

@@ -1,3 +1,4 @@
+# IMPORTS
 from textual.app import ComposeResult
 from textual.widgets import Label, ListItem, ListView
 from textual.containers import Container
@@ -36,6 +37,7 @@ class BoardsContainerWidget(Container):
                 yield Label("Keine Boards gefunden")
                 return
 
+            # GET SELECTED INDEX
             selected_index = next(
                 (index for index, board in enumerate(self.boards) if board.id == self.selected_board_id),
                 0,

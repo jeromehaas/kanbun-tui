@@ -1,3 +1,4 @@
+# IMPORTS
 import os
 from textual.screen import Screen
 from textual.widgets import Label, Button, Input
@@ -6,12 +7,16 @@ from app.api.ApiClient import ApiClient
 from app.api.BoardsApi import BoardsApi
 from app.models.Board import Board
 
-
 # SCREEN CLASS FOR DELETE A BOARD
 class CreateBoardScreen(Screen):
 
-    def __init__(self, board: Board=None):
+    # METHOD: INIT
+    def __init__(self, board: Board = None):
+
+        # GET PARENT
         super().__init__()
+
+        # GET BOARD
         self.board = board
 
         # CREATE CLIENT
@@ -25,12 +30,14 @@ class CreateBoardScreen(Screen):
 
     # COMPOSE ALL ELEMENTS
     def compose(self):
+
+        # DEFINE CONTENT
         yield Grid(
-    Label("Create New Board", id="title"),
-            Input(placeholder="Board Name", type="text", id="input_board_name"),
+            Label("Create new board", id="title"),
+            Input(placeholder="Name", type="text", id="input_board_name"),
             Button("Cancel", variant="primary", id="cancel"),
-            Button("OK",variant="primary" ,id="ok"), id="dialog"
-        )
+            Button("OK", variant="primary", id="ok"),
+        id="dialog")
 
     # METHOD: BUTTON PRESSED EVENT
     async def on_button_pressed(self, event: Button.Pressed):
@@ -41,7 +48,7 @@ class CreateBoardScreen(Screen):
             # GET VALUE FROM INPUT
             board_name = self.query_one("#input_board_name", Input).value
 
-            # WRITE DATA
+            # CREATE BOARD
             data = Board(
                 name=board_name,
             )

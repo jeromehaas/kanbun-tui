@@ -1,31 +1,52 @@
+# IMPORTS
 from app.api.ApiClient import ApiClient
 from app.models.Task import Task
 from app.models.Lane import Lane
 from app.models.Board import Board
 
-# CLASS FOR TASKS-API
+# CLASS: TASKS API
 class TasksApi:
+
+    # METHOD: INIT
     def __init__(self, api_client: ApiClient):
+
+        # SETUP API CLIENT
         self.api_client = api_client
 
-    # GET ALL TASKS
+    # METHOD: GET ALL TASKS
     async def get_tasks(self):
-        return await self.api_client.get('/tasks')
 
-    # CREATE TASK
-    async def create_task(self, board:Board, lane:Lane, task:Task ):
-        return await self.api_client.post(f'/boards/{board.id}/lanes/{lane.id}/tasks',
-                                          {"title": task.title,
-                                                "description": task.description,
-                                              })
+        # SEND REQUEST
+        return await self.api_client.get(
+            '/tasks'
+        )
 
-    # EDIT TASK
-    async def edit_task(self,board:Board, lane:Lane, task:Task):
-        return await self.api_client.patch(f'/boards/{board.id}/lanes/{lane.id}/tasks/{task.id}',
-                                          {"title": task.title,
-                                           "description": task.description,
-                                           })
+    # METHOD: CREATE TASK
+    async def create_task(self, board: Board, lane: Lane, task: Task):
 
-    # DELETE TASK
-    async def delete_task(self,board:Board, lane:Lane, task:Task):
-        return await self.api_client.delete(f'/boards/{board.id}/lanes/{lane.id}/tasks/{task.id}')
+        # SEND REQUEST
+        return await self.api_client.post(
+            f'/boards/{board.id}/lanes/{lane.id}/tasks',
+            {
+                "title": task.title,
+                "description": task.description,
+            })
+
+    # METHOD: EDIT TASK
+    async def edit_task(self, board: Board, lane: Lane, task: Task):
+
+        # SEND REQUEST
+        return await self.api_client.patch(
+            f'/boards/{board.id}/lanes/{lane.id}/tasks/{task.id}',
+            {
+                "title": task.title,
+                "description": task.description,
+            })
+
+    # METHOD: DELETE TASK
+    async def delete_task(self, board: Board, lane: Lane, task: Task):
+
+        # SEND REQUEST
+        return await self.api_client.delete(
+            f'/boards/{board.id}/lanes/{lane.id}/tasks/{task.id}'
+        )

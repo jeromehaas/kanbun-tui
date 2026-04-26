@@ -1,3 +1,4 @@
+# IMPORTS
 from textual.app import ComposeResult
 from textual.widgets import Label
 from textual.containers import Container
@@ -6,13 +7,21 @@ from app.models.Task import Task
 
 # CLASS: TASK WIDGET
 class TaskWidget(Container):
+
+    # DEFINE MAXIMAL DIGITS
     MAXIMUM_NUMBER_OF_DIGITS = 25
 
     # DEFINE TASKS
     task = reactive(None)
 
+
+    # METHOD: INIT
     def __init__(self, task: Task):
+
+        # GET PARENT
         super().__init__()
+
+        # GET TASK
         self.task = task
 
     # METHOD: COMPOSE

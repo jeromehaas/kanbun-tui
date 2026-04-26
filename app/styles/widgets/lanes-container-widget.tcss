@@ -16,8 +16,3 @@ LanesContainerWidget > ListView {
     width: 95%;
     height: 95%;
 }
-
-LanesContainerWidget > ListView > ListItem {
-
-
-}

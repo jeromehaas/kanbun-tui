@@ -27,5 +27,4 @@ EditBoardScreen #title {
 
 EditBoardScreen Button {
     width: 100%;
-
 }

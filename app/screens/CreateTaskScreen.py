@@ -1,6 +1,5 @@
+# IMPORTS
 import os
-
-from textual.app import App
 from textual.screen import Screen
 from textual.widgets import Label, Button, Input, TextArea
 from textual.containers import Grid
@@ -9,12 +8,16 @@ from app.api.TasksApi import TasksApi
 from app.models.Task import Task
 from app.services import TasksService
 
-
 # SCREEN CLASS FOR CREATE A TASK
 class CreateTaskScreen(Screen):
 
+    # METHOD: INIT
     def __init__(self, selected_board, selected_lane):
+
+        # GET PARENT
         super().__init__()
+
+        # GET BOARD AND LANE
         self.board = selected_board
         self.lane = selected_lane
 
@@ -30,13 +33,15 @@ class CreateTaskScreen(Screen):
 
     # COMPOSE ALL ELEMENTS
     def compose(self):
+
+        # DEFINE CONTENT
         yield Grid(
-    Label("Create New Task", id="title"),
-            Input(placeholder="Task Title", type="text", id="input_task_title"),
+            Label("Create new task", id="title"),
+            Input(placeholder="Title", type="text", id="input_task_title"),
             TextArea(placeholder="Task Description", id="input_task_description"),
             Button("Cancel", variant="primary", id="cancel"),
-            Button("OK",variant="primary" ,id="ok"), id="dialog"
-        )
+            Button("OK", variant="primary", id="ok"),
+        id="dialog")
 
     # METHOD: BUTTON PRESSED EVENT
     async def on_button_pressed(self, event: Button.Pressed):
@@ -48,7 +53,7 @@ class CreateTaskScreen(Screen):
             task_title = self.query_one("#input_task_title", Input).value
             task_description = self.query_one("#input_task_description", TextArea).text
 
-            # WRITE DATA
+            # CREATE TASK
             data = Task(
                 title=task_title,
                 description=task_description,

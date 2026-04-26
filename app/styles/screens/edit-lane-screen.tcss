@@ -27,5 +27,4 @@ EditLaneScreen #title {
 
 EditLaneScreen Button {
     width: 100%;
-
 }

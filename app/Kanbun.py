@@ -1,12 +1,13 @@
+# IMPORTS
 from textual.app import App
 from app.screens.BoardsScreen import BoardsScreen
 from app.screens.CreateBoardScreen import CreateBoardScreen
 from app.screens.DeleteBoardScreen import DeleteBoardScreen
 from app.screens.EditBoardScreen import EditBoardScreen
 
-
 # CLASS: MAIN CLASS FOR KANBUN APPLICATION
 class Kanbun(App):
+
     # PATHS TO CSS FILES
     CSS_PATH = ["./styles/global.tcss",
                 "./styles/screens/boards-screen.tcss",
@@ -26,10 +27,14 @@ class Kanbun(App):
                 "./styles/screens/delete-task-screen.tcss",
                 ]
 
-    # HOOK: ON MOUNT
+    # LISTENER: ON MOUNT
     def on_mount(self) -> None:
+
+        # INSTALL SCREENS
         self.install_screen(BoardsScreen(), name='BoardsScreen')
         self.install_screen(DeleteBoardScreen(), name="DeleteBoardScreen")
         self.install_screen(CreateBoardScreen(), name="CreateBoardScreen")
         self.install_screen(EditBoardScreen(), name="EditBoardScreen")
+
+        # MOUNT PUSH SCREEN
         self.push_screen("BoardsScreen")

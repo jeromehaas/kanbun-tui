@@ -1,7 +1,8 @@
+# IMPORTS
 from dataclasses import dataclass, field
 from .Task import Task
 
-# BOARD DATA CLASS
+# LANE DATA CLASS
 @dataclass
 class Lane:
     name: str
