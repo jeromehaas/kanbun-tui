@@ -37,8 +37,8 @@ class BoardsScreen(Screen):
         Binding("n", "create_task", "Create Task"),
         Binding("e", "edit_selected_task", "Edit Task"),
         Binding("d", "delete_selected_task", "Delete Task"),
-        Binding("ctrl+left", "move_left_selected_task", "Move Task Left"),
-        Binding("ctrl+right", "move_right_selected_task", "Move Task Right"),
+        Binding("-", "move_left_selected_task", "Move Task Left", priority=True),
+        Binding("_", "move_right_selected_task", "Move Task Right", priority=True),
     ]
 
     # METHOD: INIT
@@ -304,14 +304,16 @@ class BoardsScreen(Screen):
     async def action_move_left_selected_task(self):
 
         # SHOW MODAL AND REFRESH BINDINGS
-        self.tasks_service.move_task(self.selected_board, self.selected_lane, self.selected_task, self.lanes_service,"left")
+        await self.tasks_service.move_task(self.selected_board, self.selected_lane, self.selected_task, self.lanes_service,"left")
+        await self.app.screen.reload_screen()
         self.refresh_bindings()
 
     # METHOD: MOVE SELECTED TASK RIGHT
     async def action_move_right_selected_task(self):
 
         # SHOW MODAL AND REFRESH BINDINGS
-        self.tasks_service.move_task(self.selected_board,  self.selected_lane, self.selected_task, self.lanes_service, "right")
+        await self.tasks_service.move_task(self.selected_board,  self.selected_lane, self.selected_task, self.lanes_service, "right")
+        await self.app.screen.reload_screen()
         self.refresh_bindings()
 
     # METHOD CHECK ACTION
