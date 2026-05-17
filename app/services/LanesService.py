@@ -29,6 +29,7 @@ class LanesService:
                     id=task["id"],
                     title=task["title"],
                     description=task["description"],
+                    position=task["position"],
                 )
                 for task in item["tasks"]
             ])
@@ -78,6 +79,7 @@ class LanesService:
                     id=task["id"],
                     title=task["title"],
                     description=task["description"],
+                    position=task["position"],
                 )
                 for task in data.get("tasks", [])
             ])
@@ -98,6 +100,7 @@ class LanesService:
                     id=task["id"],
                     title=task["title"],
                     description=task["description"],
+                    position=task["position"],
                 )
                 for task in data.get("tasks", [])
             ])
