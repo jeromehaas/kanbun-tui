@@ -1,4 +1,4 @@
-# IMOPTS
+# IMPORTS
 from app.api.TasksApi import TasksApi
 from app.models.Board import Board
 from app.models.Task import Task
@@ -38,8 +38,8 @@ class TasksService:
             id=data["id"],
             title=data["title"],
             description=data["description"],
+            position=data["position"],
         )
-
 
     # METHOD: EDIT TASK
     async def edit_task(self, board: Board, lane: Lane, task: Task) -> Task:
@@ -47,17 +47,18 @@ class TasksService:
         # EDIT TASK
         data = await self.tasks_api.edit_task(board=board, lane=lane, task=task)
 
-        # RETURN CREATED TASK
+        # RETURN EDITED TASK
         return Task(
             id=data["id"],
             title=data["title"],
             description=data["description"],
+            position=data["position"],
         )
 
     # METHOD: DELETE TASK
     async def delete_task(self, board: Board, lane: Lane, task: Task) -> Task:
 
-        # EDIT TASK
+        # DELETE TASK
         data = await self.tasks_api.delete_task(board=board, lane=lane, task=task)
 
         # RETURN DELETED TASK
@@ -65,40 +66,32 @@ class TasksService:
             id=data["id"],
             title=data["title"],
             description=data["description"],
+            position=data["position"],
         )
 
     # METHOD: MOVE TASK
     async def move_task(self, board: Board, lane: Lane, task: Task, lanes_service: LanesService, direction: str):
 
-        # GET CURRENT AND TARGET LANE
-        current_lane = lane
-        target_lane_position = lane.position
-        target_lane: Lane = lane
-
-        # SETUP LANES SERVICE
-        lanes_service = lanes_service
-
         # CALCULATE TARGET LANE POSITION
+        target_lane_position = lane.position
         if direction == "right":
-            target_lane_position = current_lane.position + 1
+            target_lane_position = lane.position + 1
         if direction == "left":
-            target_lane_position = current_lane.position - 1
-
-        # GET TASK WITCH HAS TO BE MOVED -> COPY
-        move_task = task
-
-        # DELETE TASK IN DB
-        await self.delete_task(board=board, lane=lane, task=task)
+            target_lane_position = lane.position - 1
 
         # GET ALL LANES IN CURRENT BOARD
         lanes = await lanes_service.get_all_lanes(board)
 
         # DISCOVER TARGET LANE
+        target_lane: Lane = None
         for lane in lanes:
             if lane.position == target_lane_position:
                 target_lane = lane
                 break
 
-        # CREATE TASK IN LANE DEPENDING ON DIRECTION
-        await self.create_task(board, target_lane, move_task)
-        return
+        # ABORT IF NO TARGET LANE FOUND
+        if target_lane is None:
+            return
+
+        # MOVE TASK VIA PATCH
+        await self.tasks_api.move_task(board=board, lane=lane, task=task, target_lane=target_lane)

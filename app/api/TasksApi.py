@@ -41,6 +41,17 @@ class TasksApi:
             {
                 "title": task.title,
                 "description": task.description,
+                "position": task.position,
+            })
+
+    # METHOD: MOVE TASK
+    async def move_task(self, board: Board, lane: Lane, task: Task, target_lane: Lane):
+
+        # SEND REQUEST
+        return await self.api_client.patch(
+            f'/boards/{board.id}/lanes/{lane.id}/tasks/{task.id}',
+            {
+                "lane_id": target_lane.id,
             })
 
     # METHOD: DELETE TASK
