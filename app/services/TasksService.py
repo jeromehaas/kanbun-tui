@@ -84,9 +84,9 @@ class TasksService:
 
         # DISCOVER TARGET LANE
         target_lane: Lane = None
-        for lane in lanes:
-            if lane.position == target_lane_position:
-                target_lane = lane
+        for candidate_lane in lanes:
+            if candidate_lane.position == target_lane_position:
+                target_lane = candidate_lane
                 break
 
         # ABORT IF NO TARGET LANE FOUND
